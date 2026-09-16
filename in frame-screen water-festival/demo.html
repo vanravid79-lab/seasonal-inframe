@@ -29,22 +29,17 @@
         }
 
         /* =========================
-           TOP FRAME
+            TOP FRAME
         ========================= */
         .top-frame {
             position: fixed;
             top: 0;
             left: 0;
-
             width: 100%;
-
             display: flex;
             justify-content: center;
-
             z-index: 9999;
-
             pointer-events: none;
-
             transition: transform .35s ease;
         }
 
@@ -53,78 +48,57 @@
         }
 
         .top-ad {
+            position: relative;
             width: 720px;
             height: 250px;
-
             overflow: hidden;
-
             border-radius: 0 0 18px 18px;
-
             background: transparent;
-
             pointer-events: auto;
-
-            box-shadow:
-                0 6px 24px rgba(0, 0, 0, 0.14);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.14);
         }
 
         /* =========================
-           CONTENT
+            CONTENT
         ========================= */
         .content {
             max-width: 860px;
-
             margin: auto;
-
             background: #fff;
-
             border-radius: 24px;
-
             padding: 32px;
-
-            box-shadow:
-                0 6px 30px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.05);
         }
 
         .content h2 {
             font-size: 34px;
             line-height: 1.4;
-
             margin-bottom: 24px;
         }
 
         .content img {
             width: 100%;
-
             border-radius: 18px;
-
             margin-bottom: 24px;
         }
 
         .content p {
             margin-bottom: 20px;
-
             font-size: 17px;
         }
 
         /* =========================
-           BOTTOM FRAME
+            BOTTOM FRAME
         ========================= */
         #bottom-frame {
             position: fixed;
-
             bottom: 0;
             left: 0;
-
             width: 100%;
-
             display: flex;
             justify-content: center;
-
             z-index: 9999;
-
             pointer-events: none;
-
             transition: transform .35s ease;
         }
 
@@ -134,75 +108,53 @@
 
         .bottom-ad {
             position: relative;
-
             width: 720px;
             height: 250px;
-
             overflow: hidden;
-
             border-radius: 18px 18px 0 0;
-
             background: transparent;
-
             pointer-events: auto;
-
-            box-shadow:
-                0 -6px 24px rgba(0, 0, 0, 0.14);
+            box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.14);
         }
 
         /* =========================
-           LOTTIE PLAYER
+            LOTTIE PLAYER
         ========================= */
         lottie-player {
             width: 100%;
             height: 100%;
-
             display: block;
-
             cursor: pointer;
         }
 
         /* =========================
-           CLOSE BUTTON
+            CLOSE BUTTON
         ========================= */
         .close-btn {
             position: absolute;
-
             top: 10px;
             right: 10px;
-
             width: 30px;
             height: 30px;
-
             border: none;
             border-radius: 50%;
-
-            background:
-                rgba(0, 0, 0, 0.45);
-
+            background: rgba(0, 0, 0, 0.45);
             color: #fff;
-
             cursor: pointer;
-
             z-index: 10;
-
             backdrop-filter: blur(6px);
-
             transition: .2s ease;
         }
 
         .close-btn:hover {
-            background:
-                rgba(0, 0, 0, 0.8);
-
+            background: rgba(0, 0, 0, 0.8);
             transform: scale(1.08);
         }
 
         /* =========================
-           MOBILE
+            MOBILE
         ========================= */
         @media (max-width: 720px) {
-
             body {
                 padding-top: 35vw;
                 padding-bottom: 35vw;
@@ -212,13 +164,11 @@
             .bottom-ad {
                 width: 100vw;
                 height: 34.7vw;
-
                 border-radius: 0;
             }
 
             .content {
                 border-radius: 0;
-
                 padding: 20px;
             }
 
@@ -233,7 +183,6 @@
             .close-btn {
                 width: 26px;
                 height: 26px;
-
                 top: 8px;
                 right: 8px;
             }
@@ -247,21 +196,17 @@
          TOP FRAME
     ========================= -->
     <div class="top-frame">
+        <div class="top-ad">
 
-        <div class="top-ad" onclick="openAd()">
-
-            <lottie-player src="./top/top3.json" background="transparent" speed="1" loop autoplay>
+            <lottie-player src="./top/top3.json" background="transparent" speed="1" loop autoplay onclick="openAd()">
             </lottie-player>
-
         </div>
-
     </div>
 
     <!-- =========================
          CONTENT
     ========================= -->
     <div class="content">
-
         <h2>
             ត្រៀមរៀបចំព្រឹត្តិការណ៍
             "អង្គរសង្ក្រាន្ត"
@@ -300,107 +245,67 @@
             ឲ្យកាន់តែល្បីល្បាញ
             នៅលើឆាកអន្តរជាតិ។
         </p>
-
     </div>
 
     <!-- =========================
          BOTTOM FRAME
     ========================= -->
     <div id="bottom-frame">
-
         <div class="bottom-ad">
-
             <button class="close-btn" onclick="closeBottom(event)">
                 ✕
             </button>
-
             <lottie-player src="./bottom/bottom-water2.json" background="transparent" speed="1" loop autoplay
                 onclick="openAd()">
             </lottie-player>
-
         </div>
-
     </div>
 
     <!-- =========================
          SCRIPT
     ========================= -->
     <script>
-
         // Click URL
-        var clickTag =
-            "https://www.google.com";
+        var clickTag = "https://www.google.com";
 
         // Open Ad
         function openAd() {
-
-            window.open(
-                clickTag,
-                "_blank"
-            );
-
+            window.open(clickTag, "_blank");
         }
 
-        // Close Bottom Ad
-        function closeBottom(event) {
-
+        // Close Top Ad Manually via Button
+        function closeTop(event) {
             event.stopPropagation();
+            document.querySelector(".top-frame").classList.add("hide-top");
+        }
 
-            document
-                .getElementById("bottom-frame")
-                .classList.add("hide-bottom");
-
+        // Close Bottom Ad Manually via Button
+        function closeBottom(event) {
+            event.stopPropagation();
+            document.getElementById("bottom-frame").classList.add("hide-bottom");
         }
 
         // =========================
-        // HIDE TOP WHEN SCROLL DOWN
-        // SHOW TOP WHEN SCROLL UP
+        // HIDE TOP WHEN SCROLL UP
+        // SHOW TOP WHEN SCROLL DOWN
         // =========================
-
         let lastScrollTop = 0;
+        const topFrame = document.querySelector(".top-frame");
 
-        const topFrame =
-            document.querySelector(
-                ".top-frame"
-            );
+        window.addEventListener("scroll", function () {
+            let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
 
-        window.addEventListener(
-            "scroll",
-            function () {
-
-                let currentScroll =
-                    window.pageYOffset ||
-                    document.documentElement.scrollTop;
-
-                // Scroll Down
-                if (
-                    currentScroll >
-                    lastScrollTop
-                ) {
-
-                    topFrame.classList.add(
-                        "hide-top"
-                    );
-
-                }
-
-                // Scroll Up
-                else {
-
-                    topFrame.classList.remove(
-                        "hide-top"
-                    );
-
-                }
-
-                lastScrollTop =
-                    currentScroll <= 0
-                        ? 0
-                        : currentScroll;
-
+            // Scroll DOWN -> Show Top Frame
+            if (currentScroll > lastScrollTop) {
+                topFrame.classList.remove("hide-top");
             }
-        );
+            // Scroll UP -> Hide Top Frame
+            else {
+                topFrame.classList.add("hide-top");
+            }
 
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+        });
     </script>
 
 </body>
