@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="km">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Demo Frame Screen</title>
+
+    <!-- Lottie -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kantumruy Pro', sans-serif;
+            background: #f2f4f7;
+            color: #222;
+            line-height: 1.8;
+
+            /* Space for floating ads */
+            padding-top: 260px;
+            padding-bottom: 260px;
+        }
+
+        /* =========================
+            TOP FRAME
+        ========================= */
+        .top-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 9999;
+            pointer-events: none;
+            transition: transform .35s ease;
+        }
+
+        .hide-top {
+            transform: translateY(-110%);
+        }
+
+        .top-ad {
+            position: relative;
+            width: 720px;
+            height: 250px;
+            overflow: hidden;
+            border-radius: 0 0 18px 18px;
+            background: transparent;
+            pointer-events: auto;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.14);
+        }
+
+        /* =========================
+            CONTENT
+        ========================= */
+        .content {
+            max-width: 860px;
+            margin: auto;
+            background: #fff;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .content h2 {
+            font-size: 34px;
+            line-height: 1.4;
+            margin-bottom: 24px;
+        }
+
+        .content img {
+            width: 100%;
+            border-radius: 18px;
+            margin-bottom: 24px;
+        }
+
+        .content p {
+            margin-bottom: 20px;
+            font-size: 17px;
+        }
+
+        /* =========================
+            BOTTOM FRAME
+        ========================= */
+        #bottom-frame {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 9999;
+            pointer-events: none;
+            transition: transform .35s ease;
+        }
+
+        .hide-bottom {
+            transform: translateY(110%);
+        }
+
+        .bottom-ad {
+            position: relative;
+            width: 720px;
+            height: 250px;
+            overflow: hidden;
+            border-radius: 18px 18px 0 0;
+            background: transparent;
+            pointer-events: auto;
+            box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.14);
+        }
+
+        /* =========================
+            LOTTIE PLAYER
+        ========================= */
+        lottie-player {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: pointer;
+        }
+
+        /* =========================
+            CLOSE BUTTON
+        ========================= */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.45);
+            color: #fff;
+            cursor: pointer;
+            z-index: 10;
+            backdrop-filter: blur(6px);
+            transition: .2s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.08);
+        }
+
+        /* =========================
+            MOBILE
+        ========================= */
+        @media (max-width: 720px) {
+            body {
+                padding-top: 35vw;
+                padding-bottom: 35vw;
+            }
+
+            .top-ad,
+            .bottom-ad {
+                width: 100vw;
+                height: 34.7vw;
+                border-radius: 0;
+            }
+
+            .content {
+                border-radius: 0;
+                padding: 20px;
+            }
+
+            .content h2 {
+                font-size: 24px;
+            }
+
+            .content p {
+                font-size: 15px;
+            }
+
+            .close-btn {
+                width: 26px;
+                height: 26px;
+                top: 8px;
+                right: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         TOP FRAME
+    ========================= -->
+    <div class="top-frame">
+        <div class="top-ad">
+
+            <lottie-player src="./top/data9.json" background="transparent" speed="1" loop autoplay onclick="openAd()">
+            </lottie-player>
+        </div>
+    </div>
+
+    <!-- =========================
+         CONTENT
+    ========================= -->
+    <div class="content">
+        <h2>
+            ត្រៀមរៀបចំព្រឹត្តិការណ៍
+            "អង្គរសង្ក្រាន្ត"
+            ដ៏ធំសម្បើមនៅខេត្តសៀមរាប
+        </h2>
+
+        <img src="https://sknteam.com/media/ai_cambodia.jpeg" alt="News Image" />
+
+        <p>
+            <strong>ខេត្តសៀមរាប៖</strong>
+            អាជ្ញាធរខេត្តសៀមរាបបានប្រកាសថា
+            ត្រៀមខ្លួនរួចជាស្រេចក្នុងការរៀបចំព្រឹត្តិការណ៍
+            "អង្គរសង្ក្រាន្ត"
+            ឆ្នាំ២០២៦។
+        </p>
+
+        <p>
+            ព្រឹត្តិការណ៍នេះនឹងនាំមកនូវការបង្ហាញវប្បធម៌ខ្មែរ
+            ល្បែងប្រជាប្រិយ
+            និងការប្រគំតន្ត្រីខ្នាតធំ
+            ដើម្បីទទួលស្វាគមន៍ភ្ញៀវទេសចរជាតិ
+            និងអន្តរជាតិ។
+        </p>
+
+        <p>
+            អាជ្ញាធរក៏បានត្រៀមកម្លាំងសន្តិសុខ
+            និងការរៀបចំសណ្តាប់ធ្នាប់យ៉ាងពេញលេញ
+            ដើម្បីធានាសុវត្ថិភាពជូនប្រជាពលរដ្ឋ។
+        </p>
+
+        <p>
+            គួរបញ្ជាក់ផងដែរថា
+            ព្រឹត្តិការណ៍នេះនឹងជួយលើកកម្ពស់
+            វិស័យទេសចរណ៍
+            និងវប្បធម៌ខ្មែរ
+            ឲ្យកាន់តែល្បីល្បាញ
+            នៅលើឆាកអន្តរជាតិ។
+        </p>
+    </div>
+
+    <!-- =========================
+         BOTTOM FRAME
+    ========================= -->
+    <div id="bottom-frame">
+        <div class="bottom-ad">
+            <button class="close-btn" onclick="closeBottom(event)">
+                ✕
+            </button>
+            <lottie-player src="./bottom/data10.json" background="transparent" speed="1" loop autoplay
+                onclick="openAd()">
+            </lottie-player>
+        </div>
+    </div>
+
+    <!-- =========================
+         SCRIPT
+    ========================= -->
+    <script>
+        // Click URL
+        var clickTag = "https://www.google.com";
+
+        // Open Ad
+        function openAd() {
+            window.open(clickTag, "_blank");
+        }
+
+        // Close Top Ad Manually via Button
+        function closeTop(event) {
+            event.stopPropagation();
+            document.querySelector(".top-frame").classList.add("hide-top");
+        }
+
+        // Close Bottom Ad Manually via Button
+        function closeBottom(event) {
+            event.stopPropagation();
+            document.getElementById("bottom-frame").classList.add("hide-bottom");
+        }
+
+        // =========================
+        // HIDE TOP WHEN SCROLL UP
+        // SHOW TOP WHEN SCROLL DOWN
+        // =========================
+        let lastScrollTop = 0;
+        const topFrame = document.querySelector(".top-frame");
+
+        window.addEventListener("scroll", function () {
+            let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+            // Scroll DOWN -> Show Top Frame
+            if (currentScroll > lastScrollTop) {
+                topFrame.classList.remove("hide-top");
+            }
+            // Scroll UP -> Hide Top Frame
+            else {
+                topFrame.classList.add("hide-top");
+            }
+
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+        });
+    </script>
+
+</body>
+
+</html>
