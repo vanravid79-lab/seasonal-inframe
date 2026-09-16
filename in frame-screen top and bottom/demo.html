@@ -197,7 +197,9 @@
     ========================= -->
     <div class="top-frame">
         <div class="top-ad">
-
+            <button class="close-btn" onclick="closeTop(event)">
+                ✕
+            </button>
             <lottie-player src="./top/data9.json" background="transparent" speed="1" loop autoplay onclick="openAd()">
             </lottie-player>
         </div>
@@ -252,9 +254,7 @@
     ========================= -->
     <div id="bottom-frame">
         <div class="bottom-ad">
-            <button class="close-btn" onclick="closeBottom(event)">
-                ✕
-            </button>
+
             <lottie-player src="./bottom/data10.json" background="transparent" speed="1" loop autoplay
                 onclick="openAd()">
             </lottie-player>
@@ -286,25 +286,23 @@
         }
 
         // =========================
-        // HIDE TOP WHEN SCROLL UP
-        // SHOW TOP WHEN SCROLL DOWN
+        // HIDE TOP PERMANENTLY AFTER FIRST SCROLL + 1 SECOND TIMEOUT
         // =========================
-        let lastScrollTop = 0;
+        let hasScrolled = false;
         const topFrame = document.querySelector(".top-frame");
 
         window.addEventListener("scroll", function () {
-            let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            // Trigger only on the user's first scroll action
+            if (!hasScrolled) {
+                hasScrolled = true;
 
-            // Scroll DOWN -> Show Top Frame
-            if (currentScroll > lastScrollTop) {
-                topFrame.classList.remove("hide-top");
+                // Wait for 1 second after the user starts scrolling, then hide the top frame forever
+                setTimeout(function () {
+                    if (topFrame) {
+                        topFrame.classList.add("hide-top");
+                    }
+                }, 1500);
             }
-            // Scroll UP -> Hide Top Frame
-            else {
-                topFrame.classList.add("hide-top");
-            }
-
-            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
         });
     </script>
 
