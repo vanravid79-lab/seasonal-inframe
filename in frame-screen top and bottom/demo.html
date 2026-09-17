@@ -198,7 +198,42 @@
                 right: 8px;
             }
         }
+
+        /* =========================
+            CC LIGHT SWEEP EFFECT
+        ========================= */
+        .bottom-ad::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -75%;
+            width: 50%;
+            height: 200%;
+            background: linear-gradient(to right,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(255, 255, 255, 0.35) 50%,
+                    rgba(255, 255, 255, 0) 100%);
+            transform: rotate(25deg);
+            pointer-events: none;
+            z-index: 5;
+            animation: ccLightSweep 3s ease-in-out infinite;
+        }
+
+        @keyframes ccLightSweep {
+            0% {
+                left: -70%;
+            }
+
+            25% {
+                left: 110%;
+            }
+
+            100% {
+                left: 110%;
+            }
+        }
     </style>
+
 </head>
 
 <body>
@@ -208,7 +243,7 @@
     ========================= -->
     <div class="top-frame">
         <div class="top-ad">
-            <lottie-player src="./top/top-pchumBen.json" background="transparent" speed="1" loop autoplay
+            <lottie-player src="./top/data-pchumBen3.json" background="transparent" speed="1" loop autoplay
                 onclick="openAd()">
             </lottie-player>
         </div>

@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="km">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Khmer Daily News - Demo</title>
+
+    <style>
+        /* =========================================
+            GLOBAL RESET
+        ========================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: 'Kantumruy Pro', Arial, sans-serif;
+            background: #f0f2f5;
+
+            /*
+             * Space reserved for the fixed ads.
+             *
+             * Top ad   = 100px
+             * Bottom ad = 100px
+             */
+            /* padding-top: 100px; */
+            padding-bottom: 100px;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =========================================
+            TOP FIXED SCREEN AD
+        ========================================= */
+
+        .ad-top-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 100px;
+            margin: 0;
+            padding: 0;
+            /* background: #e4e7eb; */
+            border: 0;
+            z-index: 9999;
+            overflow: hidden;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+
+        .ad-top-fixed iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            overflow: hidden;
+        }
+
+
+        /* =========================================
+            MAIN ARTICLE CONTENT
+        ========================================= */
+
+        .main-content {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background: #ffffff;
+        }
+
+
+        .article-inner {
+            width: 100%;
+            margin: 0;
+            padding: 15px;
+            background: #ffffff;
+        }
+
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+
+        p {
+            margin-top: 0;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+
+        /* =========================================
+            ARTICLE IMAGES
+        ========================================= */
+
+        .sknteam_image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin: 15px 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+
+        .sknteam_image img {
+            display: block;
+            width: auto;
+            max-width: 100%;
+            height: auto;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        /* =========================================
+            BOTTOM FIXED SCREEN AD
+        ========================================= */
+
+        .ad-bottom-fixed {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 100px;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+
+        .ad-bottom-fixed iframe {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            overflow: hidden;
+        }
+
+
+        /* Close Button Styling */
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+
+        /* =========================================
+            MOBILE
+        ========================================= */
+
+        @media (max-width: 700px) {
+
+            .ad-top-fixed,
+            .ad-top-fixed iframe {
+                height: 110px;
+            }
+
+            .ad-bottom-fixed,
+            .ad-bottom-fixed iframe {
+                height: 110px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         FIXED TOP AD
+    ========================================= -->
+
+    <div class="ad-top-fixed">
+
+        <iframe
+            src="./top/top.html"
+            title="Top Advertisement"
+            scrolling="no">
+        </iframe>
+
+    </div>
+
+
+    <!-- =========================================
+         MAIN ARTICLE CONTENT
+    ========================================= -->
+
+    <main class="main-content">
+
+        <article class="article-inner">
+
+            <h2>
+                ត្រៀមរៀបចំព្រឹត្តិការណ៍ "អង្គរសង្ក្រាន្ត"
+                ដ៏ធំសម្បើមនៅខេត្តសៀមរាប
+                ដើម្បីអបអរសាទរបុណ្យចូលឆ្នាំថ្មី
+            </h2>
+
+
+            <div class="sknteam_image">
+
+                <img
+                    src="https://sknteam.com/media/ai_cambodia.jpeg"
+                    alt="News Image">
+
+            </div>
+
+
+            <p>
+                <strong>ខេត្តសៀមរាប៖</strong>
+                អាជ្ញាធរខេត្តសៀមរាបបានប្រកាសថា
+                ត្រៀមខ្លួនរួចជាស្រេចក្នុងការរៀបចំព្រឹត្តិការណ៍
+                "អង្គរសង្ក្រាន្ត" ឆ្នាំ២០២៦ ខាងមុខនេះ។
+                ព្រឹត្តិការណ៍នេះនឹងនាំមកនូវការបង្ហាញវប្បធម៌ខ្មែរដ៏សម្បូរបែប
+                ល្បែងប្រជាប្រិយ និងការប្រគំតន្ត្រីខ្នាតធំ
+                ដើម្បីទទួលស្វាគមន៍ភ្ញៀវទេសចរជាតិ និងអន្តរជាតិ។
+            </p>
+
+
+            <p>
+                លោកអភិបាលខេត្តបានបញ្ជាក់ថា
+                ការរៀបចំនៅឆ្នាំនេះនឹងមានភាពខុសប្លែកពីឆ្នាំមុនៗ
+                ដោយមានការបន្ថែមនូវតំបន់កម្សាន្តថ្មីៗ
+                และการតាំងពិព័រណ៍ផលិតផលក្នុងស្រុក
+                មកពីគ្រប់ខេត្តក្រុង។
+                នេះគឺជាឱកាសដ៏ល្អក្នុងការបង្ហាញពីសន្តិភាព
+                และการរីកចម្រើននៃវិស័យទេសចរណ៍
+                នៅក្នុងតំបន់សៀមរាបអង្គរ។
+            </p>
+
+
+            <p>
+                ទន្ទឹមនឹងនេះដែរ
+                កម្លាំងសមត្ថកិច្ចគ្រប់លំដាប់ថ្នាក់
+                បានត្រៀមលក្ខណៈរួចជាស្រេច
+                ដើម្បីការពារសន្តិសុខ
+                និងសណ្តាប់ធ្នាប់ជូនបងប្អូនប្រជាពលរដ្ឋ។
+                អាជ្ញាធរក៏បានអំពាវនាវដល់ម្ចាស់អាជីវកម្ម
+                សេវាកម្មទេសចរណ៍ទាំងអស់
+                កុំឲ្យមានការដំឡើងថ្លៃហួសហេតុ
+                ក្នុងអំឡុងពេលបុណ្យប្រពៃណីជាតិនេះ។
+            </p>
+
+
+            <p>
+                គួរបញ្ជាក់ផងដែរថា
+                ព្រឹត្តិការណ៍អង្គរសង្ក្រាន្ត
+                មិនត្រឹមតែជាការសប្បាយរីករាយប៉ុណ្ណោះទេ
+                ប៉ុន្តែវាក៏ជាការរួមចំណែកយ៉ាងសំខាន់
+                ក្នុងការថែរក្សា
+                និងលើកកម្ពស់មរតកវប្បធម៌ដូនតាខ្មែរ
+                ឲ្យកាន់តែល្បីល្បាញលើឆាកអន្តរជាតិ។
+            </p>
+
+
+            <div class="sknteam_image">
+
+                <img
+                    src="https://sknteam.com/media/ai_cambodia.jpeg"
+                    alt="Footer Logo">
+
+            </div>
+
+        </article>
+
+    </main>
+
+
+    <!-- =========================================
+         FIXED BOTTOM AD
+    ========================================= -->
+
+    <div class="ad-bottom-fixed">
+
+        <button class="close-btn" onclick="closeAllAds()" title="Close Ads">&times;</button>
+
+        <iframe
+            src="./bottom/bottom.html"
+            title="Bottom Advertisement"
+            scrolling="no">
+        </iframe>
+
+    </div>
+
+
+    <!-- =========================================
+         JAVASCRIPT (SCROLL BEHAVIOR & CLOSE)
+    ========================================= -->
+
+    <script>
+        let lastScrollY = window.pageYOffset;
+        let adsClosed = false;
+
+        // Handle show on scroll down, hide on scroll up for the top ad
+        window.addEventListener('scroll', function() {
+            if (adsClosed) return;
+
+            const currentScrollY = window.pageYOffset;
+            const topAd = document.querySelector('.ad-top-fixed');
+            if (!topAd) return;
+
+            if (currentScrollY <= 0) {
+                // At the very top of the page -> keep top ad hidden
+                topAd.style.transform = 'translateY(-100%)';
+            } else if (currentScrollY > lastScrollY) {
+                // Scrolling down -> show top ad
+                topAd.style.transform = 'translateY(0)';
+            } else {
+                // Scrolling up -> hide top ad
+                topAd.style.transform = 'translateY(-100%)';
+            }
+
+            lastScrollY = currentScrollY;
+        });
+
+        // Close both ads when close button is clicked
+        function closeAllAds() {
+            adsClosed = true;
+
+            const topAd = document.querySelector('.ad-top-fixed');
+            const bottomAd = document.querySelector('.ad-bottom-fixed');
+
+            if (topAd) {
+                topAd.style.display = 'none';
+            }
+            if (bottomAd) {
+                bottomAd.style.display = 'none';
+            }
+
+            // Reset body padding
+            document.body.style.paddingTop = '0';
+            document.body.style.paddingBottom = '0';
+        }
+    </script>
+
+
+</body>
+
+</html>
