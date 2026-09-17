@@ -23,9 +23,9 @@
             color: #222;
             line-height: 1.8;
 
-            /* Desktop padding */
-            padding-top: 250px;
-            padding-bottom: 200px;
+            /* Desktop padding matching frame height (200px) */
+            padding-top: 220px;
+            padding-bottom: 220px;
         }
 
         /* =========================
@@ -50,8 +50,8 @@
 
         .top-ad {
             position: relative;
-            width: 720px;
-            height: 250px;
+            width: 700px;
+            height: 200px;
             overflow: hidden;
             border-radius: 0 0 18px 18px;
             background: transparent;
@@ -93,7 +93,7 @@
         ========================= */
         #bottom-frame {
             position: fixed;
-            bottom: 0;
+            bottom: -5px;
             left: 0;
             right: 0;
             width: 100%;
@@ -129,9 +129,16 @@
             cursor: pointer;
         }
 
+        lottie-player>svg,
+        lottie-player>canvas {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover;
+        }
+
         /* =========================
             CLOSE BUTTON
-        */
+        ========================= */
         .close-btn {
             position: absolute;
             top: 15px;
@@ -305,6 +312,51 @@
                     }
                 }, 1500);
             }
+        });
+
+        // =========================
+        // ADD MORE: SHOW TOP FRAME WHEN SCROLLING UP
+        // =========================
+        let lastScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+        window.addEventListener("scroll", function () {
+            let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            const topAdFrame = document.querySelector(".top-frame");
+
+            if (topAdFrame) {
+                if (currentScroll < lastScroll) {
+
+                    topAdFrame.classList.remove("hide-top");
+                }
+            }
+
+            lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+        });
+
+        // =========================
+        // ADD MORE: HIDE TOP AGAIN WHEN SCROLLING DOWN (WITH TIMEOUT)
+        // =========================
+        let hasScrolledDown = false;
+        let lastScrollDownPos = 0;
+
+        window.addEventListener("scroll", function () {
+            let currentScrollDownPos = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (currentScrollDownPos > lastScrollDownPos) {
+                if (!hasScrolledDown) {
+                    hasScrolledDown = true;
+
+                    setTimeout(function () {
+                        const topAdFrame = document.querySelector(".top-frame");
+                        if (topAdFrame) {
+                            topAdFrame.classList.add("hide-top");
+                        }
+                        hasScrolledDown = false; // Reset so it can trigger again next time
+                    }, 1500);
+                }
+            }
+
+            lastScrollDownPos = currentScrollDownPos <= 0 ? 0 : currentScrollDownPos;
         });
     </script>
 
