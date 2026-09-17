@@ -23,9 +23,9 @@
             color: #222;
             line-height: 1.8;
 
-            /* Space for floating ads */
-            padding-top: 260px;
-            padding-bottom: 260px;
+            /* Desktop padding */
+            padding-top: 250px;
+            padding-bottom: 200px;
         }
 
         /* =========================
@@ -35,6 +35,7 @@
             position: fixed;
             top: 0;
             left: 0;
+            right: 0;
             width: 100%;
             display: flex;
             justify-content: center;
@@ -94,6 +95,7 @@
             position: fixed;
             bottom: 0;
             left: 0;
+            right: 0;
             width: 100%;
             display: flex;
             justify-content: center;
@@ -102,16 +104,14 @@
             transition: transform .35s ease;
         }
 
-
-
         .hide-bottom {
             transform: translateY(110%);
         }
 
         .bottom-ad {
             position: relative;
-            width: 720px;
-            height: 250px;
+            width: 700px;
+            height: 200px;
             overflow: hidden;
             border-radius: 18px 18px 0 0;
             background: transparent;
@@ -131,11 +131,11 @@
 
         /* =========================
             CLOSE BUTTON
-        ========================= */
+        */
         .close-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 15px;
+            right: 15px;
             width: 30px;
             height: 30px;
             border: none;
@@ -154,24 +154,26 @@
         }
 
         /* =========================
-            MOBILE
+            MOBILE RESPONSIVE
         ========================= */
-        @media (max-width: 720px) {
+        @media (max-width: 700px) {
             body {
-                padding-top: 35vw;
-                padding-bottom: 35vw;
+                padding-top: 130px;
+                padding-bottom: 130px;
             }
 
             .top-ad,
             .bottom-ad {
                 width: 100vw;
-                height: 34.7vw;
+                height: 120px;
                 border-radius: 0;
+                box-shadow: none;
             }
 
             .content {
                 border-radius: 0;
                 padding: 20px;
+                box-shadow: none;
             }
 
             .content h2 {
@@ -183,8 +185,8 @@
             }
 
             .close-btn {
-                width: 26px;
-                height: 26px;
+                width: 24px;
+                height: 24px;
                 top: 8px;
                 right: 8px;
             }
@@ -199,8 +201,8 @@
     ========================= -->
     <div class="top-frame">
         <div class="top-ad">
-
-            <lottie-player src="./top/data9.json" background="transparent" speed="1" loop autoplay onclick="openAd()">
+            <lottie-player src="./top/top-pchumBen.json" background="transparent" speed="1" loop autoplay
+                onclick="openAd()">
             </lottie-player>
         </div>
     </div>
@@ -257,7 +259,7 @@
             <button class="close-btn" onclick="closeBottom(event)">
                 ✕
             </button>
-            <lottie-player src="./bottom/data10.json" background="transparent" speed="1" loop autoplay
+            <lottie-player src="./bottom/bottom2.json" background="transparent" speed="1" loop autoplay
                 onclick="openAd()">
             </lottie-player>
         </div>
@@ -288,17 +290,15 @@
         }
 
         // =========================
-        // HIDE TOP PERMANENTLY AFTER FIRST SCROLL + 1 SECOND TIMEOUT
+        // HIDE TOP PERMANENTLY AFTER FIRST SCROLL + 1.5 SECOND TIMEOUT
         // =========================
         let hasScrolled = false;
         const topFrame = document.querySelector(".top-frame");
 
         window.addEventListener("scroll", function () {
-            // Trigger only on the user's first scroll action
             if (!hasScrolled) {
                 hasScrolled = true;
 
-                // Wait for 1 second after the user starts scrolling, then hide the top frame forever
                 setTimeout(function () {
                     if (topFrame) {
                         topFrame.classList.add("hide-top");
