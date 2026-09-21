@@ -15,6 +15,10 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bottom-ad-height: clamp(96px, 18vw, 120px);
+        }
+
         html,
         body {
             margin: 0;
@@ -27,7 +31,7 @@
             font-family: 'Kantumruy Pro', Arial, sans-serif;
             background: #f0f2f5;
             padding-top: 100px;
-            padding-bottom: 120px;
+            padding-bottom: var(--bottom-ad-height);
             overflow-x: hidden;
             transition: padding-top 0.3s ease;
         }
@@ -148,11 +152,9 @@
             left: 0;
             right: 0;
             width: 100%;
-            height: 120px;
+            height: var(--bottom-ad-height);
             margin: 0;
             padding: 0;
-            /* background: #ffffff; */
-
             z-index: 9999;
             overflow: hidden;
         }
@@ -197,15 +199,13 @@
 
         .ad-bottom-fixed iframe {
             position: absolute;
-            bottom: 0;
-            left: 0;
+            inset: 0;
             display: block;
             width: 100%;
             height: 100%;
             margin: 0;
             padding: 0;
             border: 0;
-            overflow: hidden;
             z-index: 1;
         }
 
@@ -217,8 +217,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 100px;
-            height: 100px;
+            width: min(100px, calc(100% - 24px), calc(var(--bottom-ad-height) - 12px));
+            aspect-ratio: 1;
             background-color: #e53935;
             border: 3px solid #ffffff;
             border-radius: 50%;
@@ -264,8 +264,8 @@
 
         .circle-logo {
             display: block;
-            width: 94px;
-            height: 94px;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
             border-radius: 50%;
         }
@@ -328,25 +328,8 @@
                 height: 100%;
             }
 
-            .ad-bottom-fixed,
-            .ad-bottom-fixed iframe {
-                height: 110px;
-            }
-
-            body {
-                padding-bottom: 110px;
-            }
-
-            .cirleCans {
-                left: 50%;
-                width: 115px;
-                height: 110px;
-
-            }
-
-            .circle-logo {
-                width: 94px;
-                height: 94px;
+            :root {
+                --bottom-ad-height: clamp(96px, 28vw, 110px);
             }
 
 
@@ -469,9 +452,9 @@
         <iframe src="./bottom/bottom.html" title="Bottom Advertisement" scrolling="no">
         </iframe>
 
-        <div class="cirleCans">
+        <!-- <div class="cirleCans">
             <img class="circle-logo" src="./bottom/images/img_3.png" alt="Footer Logo">
-        </div>
+        </div> -->
 
         <div class="cirleCans">
             <img class="circle-logo" src="./bottom/images/img_4.png" alt="Footer Logo">
