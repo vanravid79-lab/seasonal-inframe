@@ -184,21 +184,20 @@
             margin: 0;
             padding: 0;
             z-index: 9999;
-            overflow: hidden;
+            overflow: visible;
         }
 
         .secondElement {
-            position: fixed;
-            left: auto;
-            right: 10px;
-            bottom: -40px;
-            z-index: 10000;
-            display: none;
-            width: 250px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 2;
+            display: block;
+            width: min(200px, 80vw);
             aspect-ratio: 2480 / 3508;
             overflow: visible;
-            /* Changed to visible so top floating title isn't clipped */
             background: transparent;
+            transform: translate(-50%, -50%);
         }
 
         .secondElement iframe {
@@ -281,6 +280,10 @@
             padding: 0;
             border: 0;
             z-index: 1;
+        }
+
+        .ad-bottom-fixed>.secondElement {
+            position: absolute;
         }
 
         .cirleCans {
@@ -390,6 +393,12 @@
 
         .close-btn:hover {
             background: rgba(0, 0, 0, 0.9);
+        }
+
+        .ad-bottom-fixed>.close-btn {
+            top: 8px;
+            right: 10px;
+            z-index: 10003;
         }
 
 
@@ -502,10 +511,21 @@
          FIXED BOTTOM AD
     ========================================= -->
     <div class="ad-bottom-fixed">
+
+        <button class="close-btn" onclick="closeAllAds()" title="Close Ads">&times;</button>
+
         <iframe src="./bottom/bottom.html" title="Bottom Advertisement" scrolling="no">
         </iframe>
 
-        <div class="cirleCans">
+        <div class="secondElement">
+
+            <iframe src="./right/right.html" title="Right Advertisement" scrolling="no">
+            </iframe>
+        </div>
+    </div>
+
+
+    <!-- <div class="cirleCans">
             <img class="circle-logo" src="./bottom/images/img_6.png" alt="Footer Logo">
         </div>
 
@@ -515,24 +535,12 @@
 
         <div class="cirleCans">
             <img class="circle-logo" src="./bottom/images/img33.png" alt="Footer Logo">
-        </div>
-    </div>
+        </div> -->
 
 
     <!-- =========================================
          RIGHT/SECOND ELEMENT BANNER (CONTAINING TV SROK TITLE)
     ========================================= -->
-    <div class="secondElement">
-        <!-- Floating title positioned centered right above the banner -->
-
-
-        <button class="close-btn" onclick="closeAllAds()" title="Close Ads">&times;</button>
-
-        <iframe src="./right/right.html" title="Right Advertisement" scrolling="no">
-        </iframe>
-    </div>
-
-
     <!-- =========================================
          JAVASCRIPT (CLOSE LOGIC & AUTO-HIDE TOP AD)
     ========================================= -->
@@ -547,17 +555,6 @@
                 document.body.style.paddingTop = '0';
             }
         }, 4000);
-
-        // Show the final banner after the three-logo carousel completes.
-        setTimeout(() => {
-            const bottomAd = document.querySelector('.ad-bottom-fixed');
-            const secondAd = document.querySelector('.secondElement');
-
-            if (bottomAd && secondAd && !adsClosed) {
-                bottomAd.classList.add('is-finished');
-                secondAd.style.display = 'block';
-            }
-        }, 9000);
 
         // Close both ads when close button is clicked
         function closeAllAds() {
