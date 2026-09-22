@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lottie 700x1280 Ad</title>
+    <title>Lottie 700x200 Ad</title>
 
     <style>
         html,
@@ -18,8 +18,16 @@
 
         /* 🎯 Ad container */
         .banner {
+            width: 100%;
+            height: 100%;
             margin: 0;
             padding: 0;
+        }
+
+        lottie-player {
+            display: block;
+            width: 100%;
+            height: 100%;
         }
     </style>
 
@@ -35,7 +43,8 @@
 
     <div class="banner" onclick="window.open(clickTag,'_blank')">
 
-        <lottie-player src="./data8.json" background="transparent" speed="1" loop autoplay>
+        <lottie-player src="./right4.json" background="transparent" speed="1" loop autoplay
+            preserveAspectRatio="xMidYMid meet">
         </lottie-player>
 
     </div>

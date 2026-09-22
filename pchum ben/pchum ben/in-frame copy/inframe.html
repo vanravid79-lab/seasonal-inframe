@@ -16,7 +16,8 @@
         }
 
         :root {
-            --bottom-ad-height: clamp(96px, 18vw, 120px);
+            --bottom-ad-height: clamp(106px, 28.571vw, 160px);
+            --top-ad-height: min(200px, 28.571vw);
         }
 
         html,
@@ -30,7 +31,7 @@
         body {
             font-family: 'Kantumruy Pro', Arial, sans-serif;
             background: #f0f2f5;
-            padding-top: 100px;
+            padding-top: var(--top-ad-height);
             padding-bottom: var(--bottom-ad-height);
             overflow-x: hidden;
             transition: padding-top 0.3s ease;
@@ -59,7 +60,7 @@
             left: 0;
             right: 0;
             width: 100%;
-            height: 100px;
+            height: var(--top-ad-height);
             margin: 0;
             padding: 0;
             border: 0;
@@ -68,18 +69,49 @@
             animation: zoomOutEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-
         .ad-top-fixed iframe {
             position: absolute;
             top: 0;
             left: 0;
             display: block;
             width: 100%;
-            height: 100vh;
+            height: 100%;
             margin: 0;
             padding: 0;
             border: 0;
             overflow: hidden;
+        }
+
+        .pchumBenImg {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            display: block;
+            width: min(700px, 100%);
+            height: var(--top-ad-height);
+            margin: 0 auto;
+            object-fit: contain;
+            object-position: center;
+            transform-origin: center;
+            animation: pchumBenFloat 3.2s ease-in-out infinite;
+        }
+
+        @keyframes pchumBenFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-6px) scale(1.02);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .pchumBenImg {
+                animation: none;
+            }
         }
 
 
@@ -94,7 +126,6 @@
             background: #ffffff;
         }
 
-
         .article-inner {
             width: 100%;
             margin: 0;
@@ -102,13 +133,11 @@
             background: #ffffff;
         }
 
-
         h2 {
             margin-top: 0;
             margin-bottom: 20px;
             line-height: 1.5;
         }
-
 
         p {
             margin-top: 0;
@@ -130,7 +159,6 @@
             padding: 0;
             overflow: hidden;
         }
-
 
         .sknteam_image img {
             display: block;
@@ -161,13 +189,60 @@
 
         .secondElement {
             position: fixed;
-            right: -10px;
-            bottom: -50px;
+            left: auto;
+            right: 10px;
+            bottom: -40px;
             z-index: 10000;
             display: none;
-            width: min(200px, calc(100vw - 32px));
-            padding: 8px;
+            width: 250px;
+            aspect-ratio: 2480 / 3508;
+            overflow: visible;
+            /* Changed to visible so top floating title isn't clipped */
+            background: transparent;
+        }
 
+        .secondElement iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        /* TV Srok positioning centered floating above the banner like the sample */
+        .tvSrokText {
+            position: absolute;
+            top: -45px;
+            /* Pulls the title up and out of the banner container */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10001;
+            pointer-events: none;
+            width: 85%;
+            max-width: 320px;
+            text-align: center;
+        }
+
+        .myTvSrok {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .secondElement .tvSrok {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            z-index: 2;
+            display: block;
+            width: min(140px, 42%);
+            height: auto;
+            pointer-events: none;
         }
 
         .secondElement .second-logo {
@@ -196,7 +271,6 @@
             }
         }
 
-
         .ad-bottom-fixed iframe {
             position: absolute;
             inset: 0;
@@ -217,17 +291,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: min(100px, calc(100% - 24px), calc(var(--bottom-ad-height) - 12px));
+            width: min(160px, calc(100% - 8px), calc(var(--bottom-ad-height) - 4px));
             aspect-ratio: 1;
-            background-color: #e53935;
-            border: 3px solid #ffffff;
+            background-color: transparent;
             border-radius: 50%;
-            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.3);
             overflow: hidden;
             transform: translate(-50%, -50%);
-            transform-style: preserve-3d;
             opacity: 0;
-            animation: circleCarousel 9s 1 ease-in-out forwards;
+            will-change: opacity, transform;
+            animation: circleCarousel 9s 1 linear forwards;
         }
 
         .cirleCans:nth-of-type(1) {
@@ -245,28 +317,38 @@
         @keyframes circleCarousel {
 
             0%,
-            100% {
+            4% {
                 opacity: 0;
-                transform: translate(-50%, -50%) rotateY(-180deg) scale(0.8);
+                transform: translate(-50%, -50%) scale(0.94);
             }
 
-            5%,
+            10%,
             27% {
                 opacity: 1;
-                transform: translate(-50%, -50%) rotateY(0deg) scale(1);
+                transform: translate(-50%, -50%) scale(1);
             }
 
             33% {
                 opacity: 0;
-                transform: translate(-50%, -50%) rotateY(180deg) scale(0.8);
+                transform: translate(-50%, -50%) scale(0.94);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.94);
             }
         }
 
         .circle-logo {
             display: block;
+            flex: 0 0 100%;
             width: 100%;
             height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            aspect-ratio: 1;
             object-fit: contain;
+            object-position: center;
             border-radius: 50%;
         }
 
@@ -285,22 +367,21 @@
             }
         }
 
-
         /* Close Button Styling */
         .close-btn {
             position: absolute;
-            top: 10px;
-            right: 12px;
-            background: rgba(0, 0, 0, 0.6);
+            top: -12px;
+            right: -10px;
+            background: rgba(0, 0, 0, 0.7);
             color: #ffffff;
-            border: none;
+            border: 2px solid #ffffff;
             border-radius: 50%;
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            z-index: 10000;
+            z-index: 10002;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -308,9 +389,8 @@
         }
 
         .close-btn:hover {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
         }
-
 
 
         /* =========================================
@@ -319,20 +399,14 @@
 
         @media (max-width: 700px) {
             body {
-                padding-top: 110px;
-                padding-bottom: 110px;
+                padding-top: var(--top-ad-height);
+                padding-bottom: var(--bottom-ad-height);
             }
 
             .ad-top-fixed,
             .ad-top-fixed iframe {
                 height: 100%;
             }
-
-            .ad-bottom-fixed {
-                --bottom-ad-height: clamp(96px, 28vw, 110px);
-            }
-
-
 
             h2 {
                 font-size: 22px;
@@ -345,43 +419,34 @@
     </style>
 </head>
 
-
 <body>
-
 
     <!-- =========================================
          FIXED TOP AD
     ========================================= -->
-
     <div class="ad-top-fixed">
-
         <iframe src="./top/top.html" title="Top Advertisement" scrolling="no">
         </iframe>
-
+        <div>
+            <img class="pchumBenImg" src="./top/images/Gemini_Generated_Image_fs6g6afs6g6afs6g-removebg-preview.png">
+        </div>
     </div>
 
 
     <!-- =========================================
          MAIN ARTICLE CONTENT
     ========================================= -->
-
     <main class="main-content">
-
         <article class="article-inner">
-
             <h2>
                 ត្រៀមរៀបចំព្រឹត្តិការណ៍ "អង្គរសង្ក្រាន្ត"
                 ដ៏ធំសម្បើមនៅខេត្តសៀមរាប
                 ដើម្បីអបអរសាទរបុណ្យចូលឆ្នាំថ្មី
             </h2>
 
-
             <div class="sknteam_image">
-
                 <img src="https://sknteam.com/media/ai_cambodia.jpeg" alt="News Image">
-
             </div>
-
 
             <p>
                 <strong>ខេត្តសៀមរាប៖</strong>
@@ -393,18 +458,16 @@
                 ដើម្បីទទួលស្វាគមន៍ភ្ញៀវទេសចរជាតិ និងអន្តរជាតិ។
             </p>
 
-
             <p>
                 លោកអភិបាលខេត្តបានបញ្ជាក់ថា
                 ការរៀបចំនៅឆ្នាំនេះនឹងមានភាពខុសប្លែកពីឆ្នាំមុនៗ
                 ដោយមានការបន្ថែមនូវតំបន់កម្សាន្តថ្មីៗ
-                และการតាំងពិព័រណ៍ផលិតផលក្នុងស្រុក
+                តាំងពិព័រណ៍ផលិតផលក្នុងស្រុក
                 មកពីគ្រប់ខេត្តក្រុង។
                 នេះគឺជាឱកាសដ៏ល្អក្នុងការបង្ហាញពីសន្តិភាព
-                และการរីកចម្រើននៃវិស័យទេសចរណ៍
+                និងការរីកចម្រើននៃវិស័យទេសចរណ៍
                 នៅក្នុងតំបន់សៀមរាបអង្គរ។
             </p>
-
 
             <p>
                 ទន្ទឹមនឹងនេះដែរ
@@ -418,7 +481,6 @@
                 ក្នុងអំឡុងពេលបុណ្យប្រពៃណីជាតិនេះ។
             </p>
 
-
             <p>
                 គួរបញ្ជាក់ផងដែរថា
                 ព្រឹត្តិការណ៍អង្គរសង្ក្រាន្ត
@@ -429,31 +491,22 @@
                 ឲ្យកាន់តែល្បីល្បាញលើឆាកអន្តរជាតិ។
             </p>
 
-
             <div class="sknteam_image">
-
                 <img src="https://sknteam.com/media/ai_cambodia.jpeg" alt="Footer Logo">
-
             </div>
-
         </article>
-
     </main>
 
 
     <!-- =========================================
          FIXED BOTTOM AD
     ========================================= -->
-
     <div class="ad-bottom-fixed">
-
-        <!-- <button class="close-btn" onclick="closeAllAds()" title="Close Ads">&times;</button> -->
-
         <iframe src="./bottom/bottom.html" title="Bottom Advertisement" scrolling="no">
         </iframe>
 
         <div class="cirleCans">
-            <img class="circle-logo" src="./bottom/images/img_3.png" alt="Footer Logo">
+            <img class="circle-logo" src="./bottom/images/img_6.png" alt="Footer Logo">
         </div>
 
         <div class="cirleCans">
@@ -461,25 +514,32 @@
         </div>
 
         <div class="cirleCans">
-            <img class="circle-logo" src="./bottom/images/img_5.png" alt="Footer Logo">
+            <img class="circle-logo" src="./bottom/images/img33.png" alt="Footer Logo">
         </div>
-
     </div>
 
+
+    <!-- =========================================
+         RIGHT/SECOND ELEMENT BANNER (CONTAINING TV SROK TITLE)
+    ========================================= -->
     <div class="secondElement">
+        <!-- Floating title positioned centered right above the banner -->
+
+
         <button class="close-btn" onclick="closeAllAds()" title="Close Ads">&times;</button>
-        <img class="second-logo" src="./bottom/images/Untitled-1.png" alt="Footer Logo">
+
+        <iframe src="./right/right.html" title="Right Advertisement" scrolling="no">
+        </iframe>
     </div>
 
 
     <!-- =========================================
          JAVASCRIPT (CLOSE LOGIC & AUTO-HIDE TOP AD)
     ========================================= -->
-
     <script>
         let adsClosed = false;
 
-        // Automatically hide the top ad after 5 seconds
+        // Automatically hide the top ad after 4 seconds
         setTimeout(() => {
             const topAd = document.querySelector('.ad-top-fixed');
             if (topAd && !adsClosed) {
@@ -522,7 +582,6 @@
             document.body.style.paddingBottom = '0';
         }
     </script>
-
 
 </body>
 
