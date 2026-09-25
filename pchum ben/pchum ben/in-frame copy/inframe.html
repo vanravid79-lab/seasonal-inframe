@@ -35,13 +35,12 @@
         body {
             font-family: 'Kantumruy Pro', Arial, sans-serif;
             background: #f0f2f5;
-            padding-top: 0px;
-            padding-bottom: 0px;
+            padding-bottom: var(--bottom-ad-height);
         }
 
 
         /* =========================================
-            TOP AD (SCROLLS WITH PAGE)
+            TOP AD (SCROLLS WITH PAGE / DYNAMIC)
         ========================================= */
 
         @keyframes zoomOutEntrance {
@@ -58,7 +57,6 @@
 
         .ad-top-fixed {
             position: relative;
-            /* Changed from fixed to relative */
             top: 0;
             left: 0;
             right: 0;
@@ -69,6 +67,7 @@
             border: 0;
             z-index: 10;
             overflow: hidden;
+            transition: all 0.3s ease;
             animation: zoomOutEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
@@ -174,12 +173,11 @@
 
 
         /* =========================================
-            BOTTOM AD (SCROLLS WITH PAGE)
+            BOTTOM AD (STUCK AT BOTTOM OF SCREEN)
         ========================================= */
 
         .ad-bottom-fixed {
             position: fixed;
-            /* Locks it to the bottom of the screen */
             bottom: 0;
             left: 0;
             right: 0;
@@ -190,7 +188,6 @@
             z-index: 9999;
             overflow: visible;
             transform: translateZ(0);
-            /* Hardware acceleration for mobile */
         }
 
         .secondElement {
@@ -258,10 +255,6 @@
 
         .ad-bottom-fixed>.secondElement {
             position: absolute;
-        }
-
-        .ad-bottom-fixed.is-finished {
-            display: none;
         }
 
         /* Close Button Styling */
@@ -368,7 +361,7 @@
 <body>
 
     <!-- =========================================
-         TOP AD (AT THE TOP)
+         TOP AD
     ========================================= -->
     <div class="ad-top-fixed">
         <iframe src="./top/top.html" title="Top Advertisement" scrolling="no">
@@ -445,7 +438,7 @@
 
 
     <!-- =========================================
-         BOTTOM AD (AT THE BOTTOM)
+         BOTTOM AD (FIXED)
     ========================================= -->
     <div class="ad-bottom-fixed">
         <button class="close-btn" onclick="closeAllAds()" title="Close Ads">&times;</button>
@@ -464,8 +457,49 @@
          JAVASCRIPT
     ========================================= -->
     <script>
+        let adsClosed = false;
+        let lastScrollY = window.scrollY;
+
+        function showTopAd() {
+            const topAd = document.querySelector('.ad-top-fixed');
+            if (topAd && !adsClosed) {
+                topAd.style.display = 'block';
+            }
+        }
+
+        function hideTopAd() {
+            const topAd = document.querySelector('.ad-top-fixed');
+            if (topAd && !adsClosed) {
+                topAd.style.display = 'none';
+            }
+        }
+
+        // Automatically hide the top ad after 4 seconds
+        setTimeout(() => {
+            hideTopAd();
+        }, 4000);
+
+        // Listen to scroll to show/hide top ad dynamically
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+
+            if (adsClosed) return;
+
+            if (currentScrollY < lastScrollY) {
+                // Scrolling UP -> Show Top Ad
+                showTopAd();
+            } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
+                // Scrolling DOWN -> Hide Top Ad
+                hideTopAd();
+            }
+
+            lastScrollY = currentScrollY;
+        }, { passive: true });
+
         // Close ads when close button is clicked
         function closeAllAds() {
+            adsClosed = true;
+
             const topAd = document.querySelector('.ad-top-fixed');
             const bottomAd = document.querySelector('.ad-bottom-fixed');
 
