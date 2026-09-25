@@ -28,7 +28,6 @@
             min-height: 100%;
         }
 
-        /* Keep overflow-x hidden only on html to prevent breaking fixed elements on mobile webviews */
         html {
             overflow-x: hidden;
         }
@@ -36,35 +35,30 @@
         body {
             font-family: 'Kantumruy Pro', Arial, sans-serif;
             background: #f0f2f5;
-            padding-top: var(--top-ad-height);
-            padding-bottom: var(--bottom-ad-height);
-            transition: padding-top 0.3s ease;
-        }
-
-        /* Helper class for script to toggle top padding */
-        body.top-ad-hidden {
-            padding-top: 0px !important;
+            padding-top: 0px;
+            padding-bottom: 0px;
         }
 
 
         /* =========================================
-            TOP FIXED SCREEN AD WITH HARDWARE ACCELERATION
+            TOP AD (SCROLLS WITH PAGE)
         ========================================= */
 
         @keyframes zoomOutEntrance {
             0% {
-                transform: translateZ(0) scale(1.25);
+                transform: scale(1.25);
                 opacity: 0;
             }
 
             100% {
-                transform: translateZ(0) scale(1);
+                transform: scale(1);
                 opacity: 1;
             }
         }
 
         .ad-top-fixed {
-            position: fixed;
+            position: relative;
+            /* Changed from fixed to relative */
             top: 0;
             left: 0;
             right: 0;
@@ -73,10 +67,8 @@
             margin: 0;
             padding: 0;
             border: 0;
-            z-index: 9999;
+            z-index: 10;
             overflow: hidden;
-            /* Forces GPU layer so mobile browsers keep it locked in place during scroll */
-            transform: translateZ(0);
             animation: zoomOutEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
@@ -182,11 +174,12 @@
 
 
         /* =========================================
-            BOTTOM FIXED SCREEN AD WITH HARDWARE ACCELERATION
+            BOTTOM AD (SCROLLS WITH PAGE)
         ========================================= */
 
         .ad-bottom-fixed {
-            position: fixed;
+            position: relative;
+            /* Changed from fixed to relative */
             bottom: 0;
             left: 0;
             right: 0;
@@ -194,10 +187,8 @@
             height: var(--bottom-ad-height);
             margin: 0;
             padding: 0;
-            z-index: 9999;
+            z-index: 10;
             overflow: visible;
-            /* Forces GPU layer so mobile browsers keep it locked in place during scroll */
-            transform: translateZ(0);
         }
 
         .secondElement {
@@ -302,16 +293,6 @@
             z-index: 10003;
         }
 
-        @supports (padding: env(safe-area-inset-bottom)) {
-            body {
-                padding-bottom: calc(var(--bottom-ad-height) + env(safe-area-inset-bottom));
-            }
-
-            .ad-bottom-fixed {
-                padding-bottom: env(safe-area-inset-bottom);
-            }
-        }
-
 
         /* =========================================
             MOBILE BREAKPOINTS
@@ -385,7 +366,7 @@
 <body>
 
     <!-- =========================================
-         FIXED TOP AD
+         TOP AD (AT THE TOP)
     ========================================= -->
     <div class="ad-top-fixed">
         <iframe src="./top/top.html" title="Top Advertisement" scrolling="no">
@@ -462,7 +443,7 @@
 
 
     <!-- =========================================
-         FIXED BOTTOM AD
+         BOTTOM AD (AT THE BOTTOM)
     ========================================= -->
     <div class="ad-bottom-fixed">
         <button class="close-btn" onclick="closeAllAds()" title="Close Ads">&times;</button>
@@ -481,62 +462,13 @@
          JAVASCRIPT
     ========================================= -->
     <script>
-        let adsClosed = false;
-        let lastScrollY = window.scrollY;
-
-        function showTopAd() {
-            const topAd = document.querySelector('.ad-top-fixed');
-            if (topAd && !adsClosed) {
-                topAd.style.display = 'block';
-                document.body.classList.remove('top-ad-hidden');
-            }
-        }
-
-        function hideTopAd() {
-            const topAd = document.querySelector('.ad-top-fixed');
-            if (topAd && !adsClosed) {
-                topAd.style.display = 'none';
-                document.body.classList.add('top-ad-hidden');
-            }
-        }
-
-        // Automatically hide the top ad after 4 seconds
-        setTimeout(() => {
-            hideTopAd();
-        }, 4000);
-
-        window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
-
-            if (adsClosed) return;
-
-            if (currentScrollY < lastScrollY) {
-                // Scrolling UP -> Show Top Ad
-                showTopAd();
-            } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
-                // Scrolling DOWN -> Hide Top Ad (uncomment line below if you want it to hide when scrolling down)
-                // hideTopAd();
-            }
-
-            lastScrollY = currentScrollY;
-        }, { passive: true });
-
-        // Close both ads when close button is clicked
+        // Close ads when close button is clicked
         function closeAllAds() {
-            adsClosed = true;
-
             const topAd = document.querySelector('.ad-top-fixed');
             const bottomAd = document.querySelector('.ad-bottom-fixed');
-            const secondAd = document.querySelector('.secondElement');
 
             if (topAd) topAd.style.display = 'none';
             if (bottomAd) bottomAd.style.display = 'none';
-            if (secondAd) secondAd.style.display = 'none';
-
-            // Reset body padding entirely when fully closed
-            document.body.classList.remove('top-ad-hidden');
-            document.body.style.paddingTop = '0px';
-            document.body.style.paddingBottom = '0px';
         }
     </script>
 
