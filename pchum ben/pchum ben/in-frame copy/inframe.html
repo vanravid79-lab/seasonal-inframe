@@ -617,39 +617,10 @@
          RIGHT/SECOND ELEMENT BANNER (CONTAINING TV SROK TITLE)
     ========================================= -->
     <!-- =========================================
-         JAVASCRIPT (CLOSE LOGIC & AUTO-HIDE TOP AD)
+         JAVASCRIPT (CLOSE LOGIC)
     ========================================= -->
     <script>
         let adsClosed = false;
-        let lastScrollY = window.scrollY;
-
-        function showTopAd() {
-            const topAd = document.querySelector('.ad-top-fixed');
-
-            if (topAd && !adsClosed) {
-                topAd.style.display = 'block';
-                document.body.style.paddingTop = '';
-            }
-        }
-
-        // Automatically hide the top ad after 4 seconds
-        setTimeout(() => {
-            const topAd = document.querySelector('.ad-top-fixed');
-            if (topAd && !adsClosed) {
-                topAd.style.display = 'none';
-                document.body.style.paddingTop = '0';
-            }
-        }, 3000);
-
-        window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
-
-            if (currentScrollY < lastScrollY) {
-                showTopAd();
-            }
-
-            lastScrollY = currentScrollY;
-        }, { passive: true });
 
         // Close both ads when close button is clicked
         function closeAllAds() {
