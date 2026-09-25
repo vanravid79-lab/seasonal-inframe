@@ -27,14 +27,17 @@
             min-height: 100%;
         }
 
+
         body {
             font-family: 'Kantumruy Pro', Arial, sans-serif;
             background: #f0f2f5;
             padding-top: var(--top-ad-height);
-            padding-bottom: var(--bottom-ad-height);
+            /* Include the safe area inset in the total bottom padding */
+            padding-bottom: calc(var(--bottom-ad-height) + env(safe-area-inset-bottom));
             overflow-x: hidden;
             transition: padding-top 0.3s ease, padding-bottom 0.3s ease;
         }
+
 
         /* When this class is added to body, padding-top drops to 0 */
         body.no-top-ad {
@@ -169,6 +172,9 @@
             height: var(--bottom-ad-height);
             z-index: 9999;
             overflow: visible;
+
+            /* Add this line to push the ad up above the phone's bottom bar/home indicator */
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
         .ad-bottom-fixed iframe {

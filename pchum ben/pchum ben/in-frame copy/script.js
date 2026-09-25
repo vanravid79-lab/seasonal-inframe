@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (adsClosed) return;
             topAd.classList.add('hidden-ad');
             document.body.classList.add('no-top-ad');
-        }, 4000);
+        }, 5000);
     }
 });
 
