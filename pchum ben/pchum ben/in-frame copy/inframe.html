@@ -178,8 +178,8 @@
         ========================================= */
 
         .ad-bottom-fixed {
-            position: relative;
-            /* Changed from fixed to relative */
+            position: fixed;
+            /* Locks it to the bottom of the screen */
             bottom: 0;
             left: 0;
             right: 0;
@@ -187,8 +187,10 @@
             height: var(--bottom-ad-height);
             margin: 0;
             padding: 0;
-            z-index: 10;
+            z-index: 9999;
             overflow: visible;
+            transform: translateZ(0);
+            /* Hardware acceleration for mobile */
         }
 
         .secondElement {
