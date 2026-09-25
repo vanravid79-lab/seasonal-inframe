@@ -31,7 +31,8 @@
             font-family: 'Kantumruy Pro', Arial, sans-serif;
             background: #f0f2f5;
             padding-top: var(--top-ad-height);
-            padding-bottom: var(--bottom-ad-height);
+            /* Use calc with env(safe-area-inset-bottom) to prevent iPhone home bar overlap */
+            padding-bottom: calc(var(--bottom-ad-height) + env(safe-area-inset-bottom));
             overflow-x: hidden;
             transition: padding-top 0.3s ease, padding-bottom 0.3s ease;
         }
@@ -169,6 +170,12 @@
             height: var(--bottom-ad-height);
             z-index: 9999;
             overflow: visible;
+
+            /* Crucial for iPhone: adds padding at the bottom equal to the device's home bar space */
+            padding-bottom: env(safe-area-inset-bottom);
+
+            /* Ensures background or content scales nicely */
+            background-color: transparent;
         }
 
         .ad-bottom-fixed iframe {
@@ -182,10 +189,11 @@
 
         .secondElement {
             position: absolute;
-            top: 80%;
+            top: 70%;
+            /* Adjusted slightly up so it doesn't crowd the bottom edge on small screens */
             left: 50%;
             z-index: 2;
-            width: min(200px, 80vw);
+            width: min(180px, 70vw);
             aspect-ratio: 2480 / 3508;
             transform: translate(-50%, -50%);
         }
