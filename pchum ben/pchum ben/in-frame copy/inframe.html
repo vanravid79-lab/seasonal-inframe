@@ -16,8 +16,8 @@
         }
 
         :root {
-            --bottom-ad-height: clamp(106px, 28.571vw, 160px);
-            --top-ad-height: min(200px, 28.571vw);
+            --bottom-ad-height: clamp(88px, 28.571vw, 160px);
+            --top-ad-height: clamp(72px, 28.571vw, 200px);
         }
 
         html,
@@ -26,6 +26,10 @@
             padding: 0;
             width: 100%;
             min-height: 100%;
+        }
+
+        html {
+            overflow-x: hidden;
         }
 
         body {
@@ -193,7 +197,7 @@
             left: 50%;
             z-index: 2;
             display: block;
-            width: min(200px, 80vw);
+            width: min(200px, 44vw, 44vh);
             aspect-ratio: 2480 / 3508;
             overflow: visible;
             background: transparent;
@@ -401,6 +405,16 @@
             z-index: 10003;
         }
 
+        @supports (padding: env(safe-area-inset-bottom)) {
+            body {
+                padding-bottom: calc(var(--bottom-ad-height) + env(safe-area-inset-bottom));
+            }
+
+            .ad-bottom-fixed {
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+        }
+
 
         /* =========================================
             MOBILE
@@ -410,6 +424,7 @@
             body {
                 padding-top: var(--top-ad-height);
                 padding-bottom: var(--bottom-ad-height);
+                min-height: 100dvh;
             }
 
             .ad-top-fixed,
@@ -417,12 +432,53 @@
                 height: 100%;
             }
 
+            .pchumBenImg {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .article-inner {
+                padding: 12px clamp(10px, 4vw, 15px);
+            }
+
+            .sknteam_image img {
+                width: 100%;
+                height: auto;
+            }
+
             h2 {
                 font-size: 22px;
+                line-height: 1.4;
             }
 
             p {
                 font-size: 16px;
+                line-height: 1.7;
+            }
+        }
+
+        @media (max-width: 360px) {
+            :root {
+                --bottom-ad-height: 88px;
+                --top-ad-height: 72px;
+            }
+
+            .secondElement {
+                width: min(132px, 42vw, 42vh);
+            }
+
+            .close-btn {
+                width: 26px;
+                height: 26px;
+                right: 6px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            p {
+                font-size: 15px;
             }
         }
     </style>
@@ -546,6 +602,16 @@
     ========================================= -->
     <script>
         let adsClosed = false;
+        let lastScrollY = window.scrollY;
+
+        function showTopAd() {
+            const topAd = document.querySelector('.ad-top-fixed');
+
+            if (topAd && !adsClosed) {
+                topAd.style.display = 'block';
+                document.body.style.paddingTop = '';
+            }
+        }
 
         // Automatically hide the top ad after 4 seconds
         setTimeout(() => {
@@ -554,7 +620,17 @@
                 topAd.style.display = 'none';
                 document.body.style.paddingTop = '0';
             }
-        }, 4000);
+        }, 3000);
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY < lastScrollY) {
+                showTopAd();
+            }
+
+            lastScrollY = currentScrollY;
+        }, { passive: true });
 
         // Close both ads when close button is clicked
         function closeAllAds() {
