@@ -10,14 +10,13 @@
         /* =========================================
             GLOBAL RESET
         ========================================= */
-
         * {
             box-sizing: border-box;
         }
 
         :root {
-            --bottom-ad-height: clamp(88px, 28.571vw, 160px);
-            --top-ad-height: clamp(72px, 28.571vw, 200px);
+            --bottom-ad-height: clamp(106px, 28.571vw, 160px);
+            --top-ad-height: min(200px, 28.571vw);
         }
 
         html,
@@ -28,21 +27,23 @@
             min-height: 100%;
         }
 
-        html {
-            overflow-x: hidden;
-        }
-
         body {
             font-family: 'Kantumruy Pro', Arial, sans-serif;
             background: #f0f2f5;
+            padding-top: var(--top-ad-height);
             padding-bottom: var(--bottom-ad-height);
+            overflow-x: hidden;
+            transition: padding-top 0.3s ease, padding-bottom 0.3s ease;
         }
 
+        /* When this class is added to body, padding-top drops to 0 */
+        body.no-top-ad {
+            padding-top: 0;
+        }
 
         /* =========================================
-            TOP AD (SCROLLS WITH PAGE / DYNAMIC)
+            TOP FIXED SCREEN AD WITH ZOOM-OUT ANIMATION
         ========================================= */
-
         @keyframes zoomOutEntrance {
             0% {
                 transform: scale(1.25);
@@ -56,19 +57,26 @@
         }
 
         .ad-top-fixed {
-            position: relative;
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
             width: 100%;
             height: var(--top-ad-height);
-            margin: 0;
-            padding: 0;
-            border: 0;
-            z-index: 10;
+            z-index: 9999;
             overflow: hidden;
-            transition: all 0.3s ease;
-            animation: zoomOutEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            display: block;
+            /* Smooth sliding and fading transition */
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Class to smoothly hide the top ad upwards */
+        .ad-top-fixed.hidden-ad {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
         }
 
         .ad-top-fixed iframe {
@@ -78,10 +86,7 @@
             display: block;
             width: 100%;
             height: 100%;
-            margin: 0;
-            padding: 0;
             border: 0;
-            overflow: hidden;
         }
 
         .pchumBenImg {
@@ -94,7 +99,6 @@
             margin: 0 auto;
             object-fit: contain;
             object-position: center;
-            transform-origin: center;
             animation: pchumBenFloat 2s ease-in-out infinite;
         }
 
@@ -110,29 +114,20 @@
             }
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            .pchumBenImg {
-                animation: none;
-            }
-        }
-
-
         /* =========================================
             MAIN ARTICLE CONTENT
         ========================================= */
-
         .main-content {
             width: 100%;
-            margin: 0;
-            padding: 0;
             background: #ffffff;
         }
 
         .article-inner {
             width: 100%;
-            margin: 0;
             padding: 15px;
             background: #ffffff;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         h2 {
@@ -147,35 +142,24 @@
             line-height: 1.8;
         }
 
-
-        /* =========================================
-            ARTICLE IMAGES
-        ========================================= */
-
         .sknteam_image {
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
             margin: 15px 0;
-            padding: 0;
             overflow: hidden;
         }
 
         .sknteam_image img {
             display: block;
-            width: auto;
             max-width: 100%;
             height: auto;
-            margin: 0;
-            padding: 0;
         }
 
-
         /* =========================================
-            BOTTOM AD (STUCK AT BOTTOM OF SCREEN)
+            BOTTOM FIXED SCREEN AD
         ========================================= */
-
         .ad-bottom-fixed {
             position: fixed;
             bottom: 0;
@@ -183,11 +167,17 @@
             right: 0;
             width: 100%;
             height: var(--bottom-ad-height);
-            margin: 0;
-            padding: 0;
             z-index: 9999;
             overflow: visible;
-            transform: translateZ(0);
+        }
+
+        .ad-bottom-fixed iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            z-index: 1;
         }
 
         .secondElement {
@@ -195,73 +185,21 @@
             top: 80%;
             left: 50%;
             z-index: 2;
-            display: block;
-            width: min(200px, 44vw, 44vh);
+            width: min(200px, 80vw);
             aspect-ratio: 2480 / 3508;
-            overflow: visible;
-            background: transparent;
             transform: translate(-50%, -50%);
         }
 
         .secondElement iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            display: block;
             width: 100%;
             height: 100%;
-            margin: 0;
-            padding: 0;
-            border: 0;
-        }
-
-        .secondElement .second-logo {
-            display: block;
-            width: 100%;
-            height: auto;
-            animation: finalLogoFloat 3.6s ease-in-out infinite;
-            transform-origin: center;
-        }
-
-        @keyframes finalLogoFloat {
-
-            0%,
-            100% {
-                transform: translateY(0) scale(1);
-            }
-
-            50% {
-                transform: translateY(-8px) scale(1.02);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .secondElement .second-logo {
-                animation: none;
-            }
-        }
-
-        .ad-bottom-fixed iframe {
-            position: absolute;
-            inset: 0;
-            display: block;
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            border: 0;
-            z-index: 1;
-        }
-
-        .ad-bottom-fixed>.secondElement {
-            position: absolute;
         }
 
         /* Close Button Styling */
         .close-btn {
             position: absolute;
-            top: -12px;
-            right: -10px;
+            top: 8px;
+            right: 10px;
             background: rgba(0, 0, 0, 0.7);
             color: #ffffff;
             border: 2px solid #ffffff;
@@ -271,7 +209,7 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            z-index: 10002;
+            z-index: 10003;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -282,77 +220,16 @@
             background: rgba(0, 0, 0, 0.9);
         }
 
-        .ad-bottom-fixed>.close-btn {
-            top: 8px;
-            right: 10px;
-            z-index: 10003;
-        }
-
-
         /* =========================================
-            MOBILE BREAKPOINTS
+            RESPONSIVE STYLES
         ========================================= */
-
         @media (max-width: 700px) {
-            body {
-                min-height: 100dvh;
-            }
-
-            .ad-top-fixed {
-                height: var(--top-ad-height);
-            }
-
-            .ad-top-fixed iframe {
-                height: 100%;
-            }
-
-            .pchumBenImg {
-                width: 100%;
-                max-width: 100%;
-            }
-
-            .article-inner {
-                padding: 12px clamp(10px, 4vw, 15px);
-            }
-
-            .sknteam_image img {
-                width: 100%;
-                height: auto;
-            }
-
             h2 {
                 font-size: 22px;
-                line-height: 1.4;
             }
 
             p {
                 font-size: 16px;
-                line-height: 1.7;
-            }
-        }
-
-        @media (max-width: 360px) {
-            :root {
-                --bottom-ad-height: 88px;
-                --top-ad-height: 72px;
-            }
-
-            .secondElement {
-                width: min(132px, 42vw, 42vh);
-            }
-
-            .close-btn {
-                width: 26px;
-                height: 26px;
-                right: 6px;
-            }
-
-            h2 {
-                font-size: 20px;
-            }
-
-            p {
-                font-size: 15px;
             }
         }
     </style>
@@ -360,21 +237,16 @@
 
 <body>
 
-    <!-- =========================================
-         TOP AD
-    ========================================= -->
+    <!-- FIXED TOP AD -->
     <div class="ad-top-fixed">
-        <iframe src="./top/top.html" title="Top Advertisement" scrolling="no">
-        </iframe>
+        <iframe src="./top/top.html" title="Top Advertisement" scrolling="no"></iframe>
         <div>
-            <img class="pchumBenImg" src="./top/images/Gemini_Generated_Image_fs6g6afs6g6afs6g-removebg-preview.png">
+            <img class="pchumBenImg" src="./top/images/Gemini_Generated_Image_fs6g6afs6g6afs6g-removebg-preview.png"
+                alt="Pchum Ben Decoration">
         </div>
     </div>
 
-
-    <!-- =========================================
-         MAIN ARTICLE CONTENT
-    ========================================= -->
+    <!-- MAIN ARTICLE CONTENT -->
     <main class="main-content">
         <article class="article-inner">
             <h2>
@@ -408,105 +280,23 @@
                 នៅក្នុងតំបន់សៀមរាបអង្គរ។
             </p>
 
-            <p>
-                ទន្ទឹមនឹងនេះដែរ
-                កម្លាំងសមត្ថកិច្ចគ្រប់លំដាប់ថ្នាក់
-                បានត្រៀមលក្ខណៈរួចជាស្រេច
-                ដើម្បីការពារសន្តិសុខ
-                និងសណ្តាប់ធ្នាប់ជូនបងប្អូនប្រជាពលរដ្ឋ។
-                អាជ្ញាធរក៏បានអំពាវនាវដល់ម្ចាស់អាជីវកម្ម
-                សេវាកម្មទេសចរណ៍ទាំងអស់
-                កុំឲ្យមានការដំឡើងថ្លៃហួសហេតុ
-                ក្នុងអំឡុងពេលបុណ្យប្រពៃណីជាតិនេះ។
-            </p>
-
-            <p>
-                គួរបញ្ជាក់ផងដែរថា
-                ព្រឹត្តិការណ៍អង្គរសង្ក្រាន្ត
-                មិនត្រឹមតែជាការសប្បាយរីករាយប៉ុណ្ណោះទេ
-                ប៉ុន្តែវាក៏ជាការរួមចំណែកយ៉ាងសំខាន់
-                ក្នុងការថែរក្សា
-                និងលើកកម្ពស់មរតកវប្បធម៌ដូនតាខ្មែរ
-                ឲ្យកាន់តែល្បីល្បាញលើឆាកអន្តរជាតិ។
-            </p>
-
             <div class="sknteam_image">
                 <img src="https://sknteam.com/media/ai_cambodia.jpeg" alt="Footer Logo">
             </div>
         </article>
     </main>
 
-
-    <!-- =========================================
-         BOTTOM AD (FIXED)
-    ========================================= -->
+    <!-- FIXED BOTTOM AD -->
     <div class="ad-bottom-fixed">
-        <button class="close-btn" onclick="closeAllAds()" title="Close Ads">&times;</button>
-
-        <iframe src="./bottom/bottom.html" title="Bottom Advertisement" scrolling="no">
-        </iframe>
-
+        <button class="close-btn" id="closeAdsBtn" title="Close Ads">&times;</button>
+        <iframe src="./bottom/bottom.html" title="Bottom Advertisement" scrolling="no"></iframe>
         <div class="secondElement">
-            <iframe src="./right/right.html" title="Right Advertisement" scrolling="no">
-            </iframe>
+            <iframe src="./right/right.html" title="Right Advertisement" scrolling="no"></iframe>
         </div>
     </div>
 
-
-    <!-- =========================================
-         JAVASCRIPT
-    ========================================= -->
-    <script>
-        let adsClosed = false;
-        let lastScrollY = window.scrollY;
-
-        function showTopAd() {
-            const topAd = document.querySelector('.ad-top-fixed');
-            if (topAd && !adsClosed) {
-                topAd.style.display = 'block';
-            }
-        }
-
-        function hideTopAd() {
-            const topAd = document.querySelector('.ad-top-fixed');
-            if (topAd && !adsClosed) {
-                topAd.style.display = 'none';
-            }
-        }
-
-        // Automatically hide the top ad after 4 seconds
-        setTimeout(() => {
-            hideTopAd();
-        }, 4000);
-
-        // Listen to scroll to show/hide top ad dynamically
-        window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
-
-            if (adsClosed) return;
-
-            if (currentScrollY < lastScrollY) {
-                // Scrolling UP -> Show Top Ad
-                showTopAd();
-            } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
-                // Scrolling DOWN -> Hide Top Ad
-                hideTopAd();
-            }
-
-            lastScrollY = currentScrollY;
-        }, { passive: true });
-
-        // Close ads when close button is clicked
-        function closeAllAds() {
-            adsClosed = true;
-
-            const topAd = document.querySelector('.ad-top-fixed');
-            const bottomAd = document.querySelector('.ad-bottom-fixed');
-
-            if (topAd) topAd.style.display = 'none';
-            if (bottomAd) bottomAd.style.display = 'none';
-        }
-    </script>
+    <!-- JAVASCRIPT -->
+    <script src="./script.js"></script>
 
 </body>
 
