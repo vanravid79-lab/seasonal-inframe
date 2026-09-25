@@ -432,25 +432,6 @@
                 height: 100%;
             }
 
-            .ad-top-fixed {
-                position: fixed;
-                top: 0;
-                right: 0;
-                bottom: auto;
-                left: 0;
-                width: 100vw;
-                margin: 0;
-                padding: 0;
-            }
-
-            .ad-top-fixed iframe {
-                top: 0;
-                left: 0;
-                width: 100%;
-                margin: 0;
-                padding: 0;
-            }
-
             .pchumBenImg {
                 width: 100%;
                 max-width: 100%;
@@ -617,10 +598,49 @@
          RIGHT/SECOND ELEMENT BANNER (CONTAINING TV SROK TITLE)
     ========================================= -->
     <!-- =========================================
-         JAVASCRIPT (CLOSE LOGIC)
+         JAVASCRIPT (CLOSE LOGIC & AUTO-HIDE TOP AD)
     ========================================= -->
     <script>
         let adsClosed = false;
+        let lastScrollY = window.scrollY;
+
+        function showTopAd() {
+            const topAd = document.querySelector('.ad-top-fixed');
+            if (topAd && !adsClosed) {
+                topAd.style.display = 'block';
+                // Restore the body padding to match the top ad height variable
+                document.body.style.paddingTop = 'var(--top-ad-height)';
+            }
+        }
+
+        function hideTopAd() {
+            const topAd = document.querySelector('.ad-top-fixed');
+            if (topAd && !adsClosed) {
+                topAd.style.display = 'none';
+                document.body.style.paddingTop = '0px';
+            }
+        }
+
+        // Automatically hide the top ad after 4 seconds
+        setTimeout(() => {
+            hideTopAd();
+        }, 4000);
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+
+            if (adsClosed) return;
+
+            if (currentScrollY < lastScrollY) {
+                // Scrolling UP -> Show Top Ad
+                showTopAd();
+            } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
+                // Scrolling DOWN -> Hide Top Ad (optional for better UX)
+                // hideTopAd();
+            }
+
+            lastScrollY = currentScrollY;
+        }, { passive: true });
 
         // Close both ads when close button is clicked
         function closeAllAds() {
@@ -630,19 +650,13 @@
             const bottomAd = document.querySelector('.ad-bottom-fixed');
             const secondAd = document.querySelector('.secondElement');
 
-            if (topAd) {
-                topAd.style.display = 'none';
-            }
-            if (bottomAd) {
-                bottomAd.style.display = 'none';
-            }
-            if (secondAd) {
-                secondAd.style.display = 'none';
-            }
+            if (topAd) topAd.style.display = 'none';
+            if (bottomAd) bottomAd.style.display = 'none';
+            if (secondAd) secondAd.style.display = 'none';
 
             // Reset body padding
-            document.body.style.paddingTop = '0';
-            document.body.style.paddingBottom = '0';
+            document.body.style.paddingTop = '0px';
+            document.body.style.paddingBottom = '0px';
         }
     </script>
 
