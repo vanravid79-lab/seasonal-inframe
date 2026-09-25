@@ -41,6 +41,11 @@
             transition: padding-top 0.3s ease;
         }
 
+        /* Helper class for script to toggle top padding */
+        body.top-ad-hidden {
+            padding-top: 0px !important;
+        }
+
 
         /* =========================================
             TOP FIXED SCREEN AD WITH ZOOM-OUT ANIMATION
@@ -216,38 +221,6 @@
             border: 0;
         }
 
-        /* TV Srok positioning centered floating above the banner like the sample */
-        .tvSrokText {
-            position: absolute;
-            top: -45px;
-            /* Pulls the title up and out of the banner container */
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10001;
-            pointer-events: none;
-            width: 85%;
-            max-width: 320px;
-            text-align: center;
-        }
-
-        .myTvSrok {
-            display: block;
-            width: 100%;
-            height: auto;
-            object-fit: contain;
-        }
-
-        .secondElement .tvSrok {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            z-index: 2;
-            display: block;
-            width: min(140px, 42%);
-            height: auto;
-            pointer-events: none;
-        }
-
         .secondElement .second-logo {
             display: block;
             width: 100%;
@@ -290,88 +263,8 @@
             position: absolute;
         }
 
-        .cirleCans {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: min(160px, calc(100% - 8px), calc(var(--bottom-ad-height) - 4px));
-            aspect-ratio: 1;
-            background-color: transparent;
-            border-radius: 50%;
-            overflow: hidden;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            will-change: opacity, transform;
-            animation: circleCarousel 9s 1 linear forwards;
-        }
-
-        .cirleCans:nth-of-type(1) {
-            animation-delay: 0s;
-        }
-
-        .cirleCans:nth-of-type(2) {
-            animation-delay: 3s;
-        }
-
-        .cirleCans:nth-of-type(3) {
-            animation-delay: 6s;
-        }
-
-        @keyframes circleCarousel {
-
-            0%,
-            4% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.94);
-            }
-
-            10%,
-            27% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-
-            33% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.94);
-            }
-
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.94);
-            }
-        }
-
-        .circle-logo {
-            display: block;
-            flex: 0 0 100%;
-            width: 100%;
-            height: 100%;
-            max-width: 100%;
-            max-height: 100%;
-            aspect-ratio: 1;
-            object-fit: contain;
-            object-position: center;
-            border-radius: 50%;
-        }
-
         .ad-bottom-fixed.is-finished {
             display: none;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .cirleCans {
-                animation: none;
-                opacity: 1;
-            }
-
-            .cirleCans:not(:nth-of-type(1)) {
-                display: none;
-            }
         }
 
         /* Close Button Styling */
@@ -417,17 +310,18 @@
 
 
         /* =========================================
-            MOBILE
+            MOBILE BREAKPOINTS (FIXED)
         ========================================= */
 
         @media (max-width: 700px) {
             body {
-                padding-top: var(--top-ad-height);
-                padding-bottom: var(--bottom-ad-height);
                 min-height: 100dvh;
             }
 
-            .ad-top-fixed,
+            .ad-top-fixed {
+                height: var(--top-ad-height);
+            }
+
             .ad-top-fixed iframe {
                 height: 100%;
             }
@@ -567,38 +461,20 @@
          FIXED BOTTOM AD
     ========================================= -->
     <div class="ad-bottom-fixed">
-
         <button class="close-btn" onclick="closeAllAds()" title="Close Ads">&times;</button>
 
         <iframe src="./bottom/bottom.html" title="Bottom Advertisement" scrolling="no">
         </iframe>
 
         <div class="secondElement">
-
             <iframe src="./right/right.html" title="Right Advertisement" scrolling="no">
             </iframe>
         </div>
     </div>
 
 
-    <!-- <div class="cirleCans">
-            <img class="circle-logo" src="./bottom/images/img_6.png" alt="Footer Logo">
-        </div>
-
-        <div class="cirleCans">
-            <img class="circle-logo" src="./bottom/images/img_4.png" alt="Footer Logo">
-        </div>
-
-        <div class="cirleCans">
-            <img class="circle-logo" src="./bottom/images/img33.png" alt="Footer Logo">
-        </div> -->
-
-
     <!-- =========================================
-         RIGHT/SECOND ELEMENT BANNER (CONTAINING TV SROK TITLE)
-    ========================================= -->
-    <!-- =========================================
-         JAVASCRIPT (CLOSE LOGIC & AUTO-HIDE TOP AD)
+         JAVASCRIPT
     ========================================= -->
     <script>
         let adsClosed = false;
@@ -608,8 +484,8 @@
             const topAd = document.querySelector('.ad-top-fixed');
             if (topAd && !adsClosed) {
                 topAd.style.display = 'block';
-                // Restore the body padding to match the top ad height variable
-                document.body.style.paddingTop = 'var(--top-ad-height)';
+                // Remove helper class to restore body padding space
+                document.body.classList.remove('top-ad-hidden');
             }
         }
 
@@ -617,7 +493,8 @@
             const topAd = document.querySelector('.ad-top-fixed');
             if (topAd && !adsClosed) {
                 topAd.style.display = 'none';
-                document.body.style.paddingTop = '0px';
+                // Add helper class to collapse body padding to 0px safely
+                document.body.classList.add('top-ad-hidden');
             }
         }
 
@@ -635,7 +512,7 @@
                 // Scrolling UP -> Show Top Ad
                 showTopAd();
             } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
-                // Scrolling DOWN -> Hide Top Ad (optional for better UX)
+                // Scrolling DOWN -> Hide Top Ad (uncomment line below if you want it to hide when scrolling down)
                 // hideTopAd();
             }
 
@@ -654,7 +531,8 @@
             if (bottomAd) bottomAd.style.display = 'none';
             if (secondAd) secondAd.style.display = 'none';
 
-            // Reset body padding
+            // Reset body padding entirely when fully closed
+            document.body.classList.remove('top-ad-hidden');
             document.body.style.paddingTop = '0px';
             document.body.style.paddingBottom = '0px';
         }
