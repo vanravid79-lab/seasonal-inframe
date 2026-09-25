@@ -28,6 +28,7 @@
             min-height: 100%;
         }
 
+        /* Keep overflow-x hidden only on html to prevent breaking fixed elements on mobile webviews */
         html {
             overflow-x: hidden;
         }
@@ -37,7 +38,6 @@
             background: #f0f2f5;
             padding-top: var(--top-ad-height);
             padding-bottom: var(--bottom-ad-height);
-            overflow-x: hidden;
             transition: padding-top 0.3s ease;
         }
 
@@ -48,17 +48,17 @@
 
 
         /* =========================================
-            TOP FIXED SCREEN AD WITH ZOOM-OUT ANIMATION
+            TOP FIXED SCREEN AD WITH HARDWARE ACCELERATION
         ========================================= */
 
         @keyframes zoomOutEntrance {
             0% {
-                transform: scale(1.25);
+                transform: translateZ(0) scale(1.25);
                 opacity: 0;
             }
 
             100% {
-                transform: scale(1);
+                transform: translateZ(0) scale(1);
                 opacity: 1;
             }
         }
@@ -75,6 +75,8 @@
             border: 0;
             z-index: 9999;
             overflow: hidden;
+            /* Forces GPU layer so mobile browsers keep it locked in place during scroll */
+            transform: translateZ(0);
             animation: zoomOutEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
@@ -180,7 +182,7 @@
 
 
         /* =========================================
-            BOTTOM FIXED SCREEN AD
+            BOTTOM FIXED SCREEN AD WITH HARDWARE ACCELERATION
         ========================================= */
 
         .ad-bottom-fixed {
@@ -194,6 +196,8 @@
             padding: 0;
             z-index: 9999;
             overflow: visible;
+            /* Forces GPU layer so mobile browsers keep it locked in place during scroll */
+            transform: translateZ(0);
         }
 
         .secondElement {
@@ -310,7 +314,7 @@
 
 
         /* =========================================
-            MOBILE BREAKPOINTS (FIXED)
+            MOBILE BREAKPOINTS
         ========================================= */
 
         @media (max-width: 700px) {
@@ -484,7 +488,6 @@
             const topAd = document.querySelector('.ad-top-fixed');
             if (topAd && !adsClosed) {
                 topAd.style.display = 'block';
-                // Remove helper class to restore body padding space
                 document.body.classList.remove('top-ad-hidden');
             }
         }
@@ -493,7 +496,6 @@
             const topAd = document.querySelector('.ad-top-fixed');
             if (topAd && !adsClosed) {
                 topAd.style.display = 'none';
-                // Add helper class to collapse body padding to 0px safely
                 document.body.classList.add('top-ad-hidden');
             }
         }
