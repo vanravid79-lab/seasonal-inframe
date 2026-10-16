@@ -1,5 +1,6 @@
 let adsClosed = false;
 let hideTimeout = null;
+let lastScrollY = window.pageYOffset || window.scrollY;
 
 document.addEventListener('DOMContentLoaded', () => {
     const topAd = document.querySelector('.ad-top-fixed');
@@ -10,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         closeBtn.addEventListener('click', closeAllAds);
     }
 
-    // Auto-hide the top ad smoothly after 2 seconds on page load
+    // Auto-hide the top ad smoothly after 4 seconds on page load
     if (topAd) {
         hideTimeout = setTimeout(() => {
             if (adsClosed) return;
@@ -20,25 +21,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Hide the top ad when the user scrolls down
+// Handle show on scroll down, hide on scroll up for the top ad
 window.addEventListener('scroll', () => {
     const topAd = document.querySelector('.ad-top-fixed');
     if (!topAd || adsClosed) return;
 
-    if (window.scrollY > 100) {
-        // When scrolling down, hide the top ad and remove top padding
-        clearTimeout(hideTimeout);
+    const currentScrollY = window.pageYOffset || window.scrollY;
+
+    // Clear auto-hide timeout if user starts scrolling manually
+    clearTimeout(hideTimeout);
+
+    if (currentScrollY <= 0) {
+        // At the very top of the page -> keep top ad hidden
         topAd.classList.add('hidden-ad');
         document.body.classList.add('no-top-ad');
-
-        // Optional: If you want it completely removed from layout via display: none:
-        // topAd.style.display = 'none';
-    } else {
-        // Optional: If user scrolls back to the very top (0), show it again
+    } else if (currentScrollY > lastScrollY) {
+        // Scrolling down -> show top ad
         topAd.classList.remove('hidden-ad');
         document.body.classList.remove('no-top-ad');
-        // topAd.style.display = 'block';
+    } else {
+        // Scrolling up -> hide top ad
+        topAd.classList.add('hidden-ad');
+        document.body.classList.add('no-top-ad');
     }
+
+    lastScrollY = currentScrollY;
 });
 
 // Close both ads completely when the close button is clicked
@@ -51,7 +58,7 @@ function closeAllAds() {
 
     if (topAd) {
         topAd.classList.add('hidden-ad');
-        topAd.style.display = 'none'; // Completely hide
+        topAd.style.display = 'none'; // Completely hide from layout
     }
     if (bottomAd) {
         bottomAd.style.display = 'none';

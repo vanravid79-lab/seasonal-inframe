@@ -4,33 +4,49 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Demo Frame Screen</title>
 
-    <!-- Lottie -->
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <!-- ========================================
+         KANTUMRUY PRO
+    ======================================== -->
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- ========================================
+         LOTTIE
+    ======================================== -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js">
+    </script>
 
     <style>
+        /* ========================================
+            GLOBAL RESET
+        ======================================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Kantumruy Pro', sans-serif;
+            font-family: "Kantumruy Pro", sans-serif;
             background: #f2f4f7;
             color: #222;
             line-height: 1.8;
-
-            /* Space for floating ads */
-            padding-top: 260px;
+            margin: 0;
+            padding-top: 20px;
             padding-bottom: 260px;
+            overflow-anchor: none;
+            transition: padding-bottom 0.35s ease;
         }
 
-        /* =========================
+        /* ========================================
             TOP FRAME
-        ========================= */
+        ======================================== */
         .top-frame {
             position: fixed;
             top: 0;
@@ -40,13 +56,25 @@
             justify-content: center;
             z-index: 9999;
             pointer-events: none;
-            transition: transform .35s ease;
+            will-change: transform, opacity;
+            transform: translate3d(0, 0, 0);
+            opacity: 1;
+            transition:
+                transform 0.35s ease,
+                opacity 0.35s ease;
         }
 
+        /* ========================================
+            HIDE TOP
+        ======================================== */
         .hide-top {
-            transform: translateY(-110%);
+            transform: translate3d(0, -110%, 0);
+            opacity: 0;
         }
 
+        /* ========================================
+            TOP AD
+        ======================================== */
         .top-ad {
             position: relative;
             width: 720px;
@@ -55,19 +83,33 @@
             border-radius: 0 0 18px 18px;
             background: transparent;
             pointer-events: auto;
-            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.14);
+            box-shadow: none;
         }
 
-        /* =========================
+        /* ========================================
+            PROFESSIONAL FIREWORK CANVAS
+        ======================================== */
+        #fireworks-canvas {
+            position: absolute;
+            inset: 0;
+            width: 50%;
+            height: 50%;
+            z-index: 15;
+            pointer-events: none;
+        }
+
+        /* ========================================
             CONTENT
-        ========================= */
+        ======================================== */
         .content {
+            width: calc(100% - 32px);
             max-width: 860px;
-            margin: auto;
+            margin: 0 auto;
             background: #fff;
             border-radius: 24px;
             padding: 32px;
             box-shadow: 0 6px 30px rgba(0, 0, 0, 0.05);
+            transition: margin-top 0.35s ease;
         }
 
         .content h2 {
@@ -77,6 +119,7 @@
         }
 
         .content img {
+            display: block;
             width: 100%;
             border-radius: 18px;
             margin-bottom: 24px;
@@ -87,63 +130,87 @@
             font-size: 17px;
         }
 
-        /* =========================
+        /* ========================================
             BOTTOM FRAME
-        ========================= */
+        ======================================== */
         #bottom-frame {
             position: fixed;
-            bottom: 0;
+            bottom: 0px;
             left: 0;
             width: 100%;
             display: flex;
             justify-content: center;
             z-index: 9999;
             pointer-events: none;
-            transition: transform .35s ease;
+            will-change: transform, opacity;
+            transform: translate3d(0, 0, 0);
+            opacity: 1;
+            transition:
+                transform 0.35s ease,
+                opacity 0.35s ease;
         }
 
+        /* ========================================
+            HIDE BOTTOM
+        ======================================== */
         .hide-bottom {
-            transform: translateY(110%);
+            transform: translate3d(0, 110%, 0);
+            opacity: 0;
         }
 
+        /* ========================================
+            BOTTOM AD
+        ======================================== */
         .bottom-ad {
             position: relative;
             width: 720px;
             height: 250px;
             overflow: hidden;
             border-radius: 18px 18px 0 0;
-            background: transparent;
+
             pointer-events: auto;
-            box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.14);
+            box-shadow: none;
         }
 
-        /* =========================
+        /* ========================================
             LOTTIE PLAYER
-        ========================= */
+        ======================================== */
         lottie-player {
             width: 100%;
             height: 100%;
             display: block;
             cursor: pointer;
+            background: transparent !important;
+            position: relative;
+            z-index: 5;
         }
 
-        /* =========================
+        /* ========================================
             CLOSE BUTTON
-        ========================= */
+        ======================================== */
         .close-btn {
             position: absolute;
             top: 10px;
             right: 10px;
             width: 30px;
             height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
             border: none;
             border-radius: 50%;
             background: rgba(0, 0, 0, 0.45);
             color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1;
             cursor: pointer;
-            z-index: 10;
+            z-index: 100;
             backdrop-filter: blur(6px);
-            transition: .2s ease;
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
         }
 
         .close-btn:hover {
@@ -151,29 +218,74 @@
             transform: scale(1.08);
         }
 
-        /* =========================
+        .close-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* ========================================
             MOBILE
-        ========================= */
+        ======================================== */
         @media (max-width: 720px) {
+
+            /* NEW: stop the rubber-band bounce that makes fixed elements wobble */
+            html,
             body {
-                padding-top: 35vw;
-                padding-bottom: 35vw;
+                overscroll-behavior-y: none;
             }
 
-            .top-ad,
-            .bottom-ad {
-                width: 100vw;
+            body {
+                margin: 0;
+                padding-top: 15px;
+                padding-bottom: 34.7vw;
+            }
+
+            .top-frame {
+                left: 0;
+                right: 0;
+                width: 100%;
+                top: -11px;
+            }
+
+            .top-ad {
+                width: 100%;
                 height: 34.7vw;
                 border-radius: 0;
             }
 
+            #fireworks-canvas {
+                width: 100%;
+                height: 100%;
+            }
+
+            #bottom-frame {
+                left: 0;
+                right: 0;
+                width: 100%;
+                bottom: 0;
+                /* CHANGED: was -70px */
+            }
+
+            .bottom-ad {
+                width: 100%;
+                height: 250px;
+                border-radius: 0;
+                margin-bottom: -70px;
+                /* NEW: keeps your old -70px look */
+                transform: translateZ(0);
+                /* NEW: own GPU layer, no repaint shake */
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+
             .content {
+                width: 100%;
                 border-radius: 0;
                 padding: 20px;
             }
 
             .content h2 {
                 font-size: 24px;
+                line-height: 1.5;
             }
 
             .content p {
@@ -183,34 +295,208 @@
             .close-btn {
                 width: 26px;
                 height: 26px;
-                top: 8px;
+                top: 4rem;
                 right: 8px;
+                font-size: 15px;
             }
+        }
+
+        /* ========================================
+            SMALL MOBILE
+        ======================================== */
+        @media (max-width: 400px) {
+
+            .content {
+                padding: 16px;
+            }
+
+            .content h2 {
+                font-size: 21px;
+            }
+
+            .content p {
+                font-size: 14px;
+            }
+        }
+
+        /* ========================================
+            CLEAN BOTTOM FRAME
+        ======================================== */
+
+        /* Keep the page content from hiding behind the ad */
+        body {
+            padding-bottom: 270px;
+        }
+
+        #bottom-frame {
+            bottom: 0;
+        }
+
+        .bottom-ad {
+            aspect-ratio: 720 / 250;
+            /* ad keeps its shape, never stretched or cropped */
+            height: auto;
+            margin-bottom: 0;
+
+        }
+
+        /* Small, quiet close button with a big invisible tap area */
+        .close-btn {
+            top: 8px;
+            right: 8px;
+            width: 26px;
+            height: 26px;
+            font-size: 13px;
+            background: rgba(0, 0, 0, 0.55);
+        }
+
+        .close-btn::after {
+            content: "";
+            position: absolute;
+            inset: -9px;
+            /* 44px touch target */
+        }
+
+        .close-btn:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 720px) {
+
+            body {
+                padding-bottom: calc(34.7vw + 16px);
+                /* matches ad height */
+            }
+
+            .bottom-ad {
+                width: 100%;
+                height: auto;
+                margin-bottom: 0;
+                border-radius: 0;
+            }
+
+            .close-btn {
+                top: 6px;
+                right: 6px;
+                width: 26px;
+                height: 26px;
+                font-size: 13px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #bottom-frame {
+                transition: none;
+            }
+        }
+
+        /* ========================================
+            KEEP BOTTOM FRAME ON SCREEN BOTTOM
+        ======================================== */
+        #bottom-frame {
+            position: fixed;
+            top: auto;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            /* iPhone home bar */
+        }
+
+        /* ========================================
+            SMOOTH SCROLLING + SMOOTH FRAMES
+        ======================================== */
+        #bottom-frame,
+        .top-frame {
+            translate: none;
+            /* no JS offsets, browser keeps it pinned */
+            contain: layout style;
+            backface-visibility: hidden;
+            transition:
+                transform 0.45s cubic-bezier(0.22, 0.8, 0.3, 1),
+                opacity 0.35s ease;
+        }
+
+        /* blur behind the button is expensive while content scrolls under it */
+        .close-btn {
+            -webkit-backdrop-filter: none;
+            backdrop-filter: none;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        /* smooth anchor jumps only; real finger scrolling stays native */
+        html {
+            scroll-behavior: auto;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* ========================================
+            STATIC BOTTOM FRAME
+            The page scrolls inside <body>, not the browser window,
+            so the browser toolbars never resize and the frame never moves.
+        ======================================== */
+        html {
+            height: 100%;
+            height: 100dvh;
+            overflow: hidden;
+        }
+
+        body {
+            height: 100%;
+            height: 100dvh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            overscroll-behavior-y: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #bottom-frame {
+            position: fixed;
+            bottom: 0;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- =========================
+    <!-- ========================================
          TOP FRAME
-    ========================= -->
-    <div class="top-frame">
-        <div class="top-ad">
+         HIDDEN ON FIRST LOAD
+    ======================================== -->
+    <div class="top-frame hide-top" id="top-frame">
 
-            <lottie-player src="./top/top4.json" background="transparent" speed="1" loop autoplay onclick="openAd()">
+        <div class="top-ad" style="margin-top: -4px;">
+
+            <!-- ========================================
+                 PROFESSIONAL FIREWORKS
+            ======================================== -->
+            <canvas id="fireworks-canvas"></canvas>
+
+            <!-- TOP LOTTIE -->
+            <lottie-player src="./top/data5.json" background="transparent" speed="1" loop autoplay onclick="openAd()">
             </lottie-player>
+
         </div>
+
     </div>
 
-    <!-- =========================
+
+    <!-- ========================================
          CONTENT
-    ========================= -->
+    ======================================== -->
     <div class="content">
+
         <h2>
+
             ត្រៀមរៀបចំព្រឹត្តិការណ៍
             "អង្គរសង្ក្រាន្ត"
             ដ៏ធំសម្បើមនៅខេត្តសៀមរាប
+            
         </h2>
 
         <img src="https://sknteam.com/media/ai_cambodia.jpeg" alt="News Image" />
@@ -226,14 +512,14 @@
         <p>
             ព្រឹត្តិការណ៍នេះនឹងនាំមកនូវការបង្ហាញវប្បធម៌ខ្មែរ
             ល្បែងប្រជាប្រិយ
-            និងការប្រគំតន្ត្រីខ្នាតធំ
+            ប្រគំតន្ត្រីខ្នាតធំ
             ដើម្បីទទួលស្វាគមន៍ភ្ញៀវទេសចរជាតិ
             និងអន្តរជាតិ។
         </p>
 
         <p>
             អាជ្ញាធរក៏បានត្រៀមកម្លាំងសន្តិសុខ
-            និងការរៀបចំសណ្តាប់ធ្នាប់យ៉ាងពេញលេញ
+            រៀបចំសណ្តាប់ធ្នាប់យ៉ាងពេញលេញ
             ដើម្បីធានាសុវត្ថិភាពជូនប្រជាពលរដ្ឋ។
         </p>
 
@@ -245,67 +531,1131 @@
             ឲ្យកាន់តែល្បីល្បាញ
             នៅលើឆាកអន្តរជាតិ។
         </p>
+
+        <p>
+            ការរៀបចំព្រឹត្តិការណ៍នេះ
+            នឹងបង្កើតឱកាសសម្រាប់ប្រជាពលរដ្ឋ
+            និងភ្ញៀវទេសចរជាច្រើន
+            ក្នុងការចូលរួមស្វែងយល់
+            និងរីករាយជាមួយវប្បធម៌ខ្មែរ។
+        </p>
+
+        <p>
+            ខេត្តសៀមរាបត្រូវបានរំពឹងថា
+            នឹងទទួលបានភ្ញៀវទេសចរជាច្រើន
+            ក្នុងអំឡុងពេលព្រឹត្តិការណ៍នេះ។
+        </p>
+
+        <p>
+            ព្រឹត្តិការណ៍នេះក៏ជាឱកាសមួយ
+            សម្រាប់ការផ្សព្វផ្សាយ
+            អំពីវប្បធម៌ និងប្រពៃណីខ្មែរ
+            ទៅកាន់ភ្ញៀវទេសចរអន្តរជាតិ។
+        </p>
+
     </div>
 
-    <!-- =========================
+
+    <!-- ========================================
          BOTTOM FRAME
-    ========================= -->
+         VISIBLE ON FIRST LOAD
+    ======================================== -->
     <div id="bottom-frame">
         <div class="bottom-ad">
-            <button class="close-btn" onclick="closeBottom(event)">
-                ✕
+
+            <button style="margin-top: 2rem;" class="close-btn" type="button" onclick="closeBottom(event)"
+                aria-label="Close advertisement">
+                <span aria-hidden="true">✕</span>
             </button>
-            <lottie-player src="./bottom/bottom-water3.json" background="transparent" speed="1" loop autoplay
-                onclick="openAd()">
+
+            <lottie-player src="./bottom/data11.json" background="transparent" speed="1" loop autoplay role="link"
+                aria-label="Open advertisement" preserveAspectRatio="xMidYMax meet" onclick="openAd()">
             </lottie-player>
+
         </div>
     </div>
 
-    <!-- =========================
-         SCRIPT
-    ========================= -->
+
+    <!-- ========================================
+         JAVASCRIPT
+    ======================================== -->
     <script>
-        // Click URL
+
+        /* ========================================
+            CLICK TAG
+        ======================================== */
+
         var clickTag = "https://www.google.com";
 
-        // Open Ad
         function openAd() {
             window.open(clickTag, "_blank");
         }
 
-        // Close Top Ad Manually via Button
-        function closeTop(event) {
-            event.stopPropagation();
-            document.querySelector(".top-frame").classList.add("hide-top");
-        }
 
-        // Close Bottom Ad Manually via Button
-        function closeBottom(event) {
-            event.stopPropagation();
-            document.getElementById("bottom-frame").classList.add("hide-bottom");
-        }
+        /* ========================================
+            TOP / BOTTOM VARIABLES
+        ======================================== */
 
-        // =========================
-        // HIDE TOP PERMANENTLY AFTER FIRST SCROLL + 1 SECOND TIMEOUT
-        // =========================
-        let hasScrolled = false;
-        const topFrame = document.querySelector(".top-frame");
+        let topAdClosed = false;
+        let lastScrollY = window.pageYOffset || window.scrollY;
+        let ticking = false;
+        const THRESHOLD = 12;
+
+
+        /* ========================================
+            DOM READY
+        ======================================== */
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const topFrame = document.getElementById("top-frame");
+            const bottomFrame = document.getElementById("bottom-frame");
+
+            if (topFrame) {
+                topFrame.classList.add("hide-top");
+            }
+
+            if (bottomFrame) {
+                bottomFrame.classList.remove("hide-bottom");
+                bottomFrame.style.display = "flex";
+            }
+
+            /*
+             * Start professional fireworks
+             */
+            startFireworks();
+
+        });
+
+
+        /* ========================================
+            SCROLL
+        ======================================== */
 
         window.addEventListener("scroll", function () {
-            // Trigger only on the user's first scroll action
-            if (!hasScrolled) {
-                hasScrolled = true;
 
-                // Wait for 1 second after the user starts scrolling, then hide the top frame forever
+            if (!ticking) {
+
+                requestAnimationFrame(updateTopAd);
+
+                ticking = true;
+
+            }
+
+        }, { passive: true });
+
+
+        /* ========================================
+            UPDATE TOP AD
+        ======================================== */
+
+        function updateTopAd() {
+
+            ticking = false;
+
+            const topFrame = document.getElementById("top-frame");
+
+            if (!topFrame || topAdClosed) {
+                return;
+            }
+
+            const y = window.pageYOffset || window.scrollY;
+
+            const maxY =
+                document.documentElement.scrollHeight -
+                window.innerHeight;
+
+
+            if (y <= 0) {
+
+                topFrame.classList.add("hide-top");
+
+                lastScrollY = 0;
+
+                return;
+            }
+
+
+            if (y >= maxY - 2) {
+                return;
+            }
+
+
+            if (Math.abs(y - lastScrollY) < THRESHOLD) {
+                return;
+            }
+
+
+            if (y > lastScrollY) {
+
+                topFrame.classList.remove("hide-top");
+
+            } else {
+
+                topFrame.classList.add("hide-top");
+
+            }
+
+
+            lastScrollY = y;
+
+        }
+
+
+        /* ========================================
+            CLOSE TOP
+        ======================================== */
+
+        function closeTop(event) {
+
+            event.stopPropagation();
+
+            topAdClosed = true;
+
+            const topFrame =
+                document.getElementById("top-frame");
+
+
+            if (topFrame) {
+
+                topFrame.classList.add("hide-top");
+
+                topFrame.style.display = "none";
+
+            }
+
+        }
+
+
+        /* ========================================
+            CLOSE BOTTOM
+        ======================================== */
+
+        function closeBottom(event) {
+
+            event.stopPropagation();
+
+            const bottomFrame =
+                document.getElementById("bottom-frame");
+
+
+            if (bottomFrame) {
+
+                bottomFrame.classList.add("hide-bottom");
+
+
                 setTimeout(function () {
-                    if (topFrame) {
+
+                    if (bottomFrame) {
+
+                        bottomFrame.style.display = "none";
+
+                    }
+
+                }, 350);
+
+            }
+
+
+            document.body.style.paddingBottom = "20px";
+
+        }
+
+
+        /* ============================================================
+             PROFESSIONAL REALISTIC FIREWORK SYSTEM
+        ============================================================ */
+
+        function startFireworks() {
+
+            const canvas =
+                document.getElementById("fireworks-canvas");
+
+            if (!canvas) {
+                return;
+            }
+
+
+            const ctx =
+                canvas.getContext("2d");
+
+
+            let width = 0;
+            let height = 0;
+
+
+            const rockets = [];
+            const particles = [];
+            const flashes = [];
+
+
+            /* ========================================
+                SETTINGS
+            ======================================== */
+
+            const settings = {
+
+                rocketSpeedMin: 2.8,
+
+                rocketSpeedMax: 4.8,
+
+                particleCountMin: 30,
+
+                particleCountMax: 55,
+
+                gravity: 0.055,
+
+                friction: 0.985,
+
+                trailLength: 8,
+
+                fadeSpeed: 0.012
+
+            };
+
+
+            /* ========================================
+                COLORS
+            ======================================== */
+
+            const colors = [
+
+                "#ff453a",
+                "#ff9f0a",
+                "#ffd60a",
+                "#30d158",
+                "#64d2ff",
+                "#0a84ff",
+                "#bf5af2",
+                "#ff375f",
+                "#ffffff"
+
+            ];
+
+
+            /* ========================================
+                RESIZE CANVAS
+            ======================================== */
+
+            function resizeCanvas() {
+
+                const rect =
+                    canvas.getBoundingClientRect();
+
+
+                const dpr =
+                    Math.min(window.devicePixelRatio || 1, 2);
+
+
+                width = rect.width;
+
+                height = rect.height;
+
+
+                canvas.width =
+                    width * dpr;
+
+                canvas.height =
+                    height * dpr;
+
+
+                ctx.setTransform(
+                    dpr,
+                    0,
+                    0,
+                    dpr,
+                    0,
+                    0
+                );
+
+            }
+
+
+            window.addEventListener(
+                "resize",
+                resizeCanvas
+            );
+
+
+            resizeCanvas();
+
+
+            /* ========================================
+                RANDOM
+            ======================================== */
+
+            function random(min, max) {
+
+                return Math.random() *
+                    (max - min) + min;
+
+            }
+
+
+            /* ========================================
+                RANDOM COLOR
+            ======================================== */
+
+            function randomColor() {
+
+                return colors[
+                    Math.floor(
+                        Math.random() *
+                        colors.length
+                    )
+                ];
+
+            }
+
+
+            /* ========================================
+                CREATE ROCKET
+            ======================================== */
+
+            function createRocket(side) {
+
+                let x;
+
+
+                if (side === "left") {
+
+                    x = random(
+                        width * 0.04,
+                        width * 0.28
+                    );
+
+                } else {
+
+                    x = random(
+                        width * 0.72,
+                        width * 0.96
+                    );
+
+                }
+
+
+                const targetY =
+                    random(
+                        height * 0.12,
+                        height * 0.48
+                    );
+
+
+                rockets.push({
+
+                    x: x,
+
+                    y: height + 10,
+
+                    targetY: targetY,
+
+                    speed: random(
+                        settings.rocketSpeedMin,
+                        settings.rocketSpeedMax
+                    ),
+
+                    color: randomColor(),
+
+                    trail: []
+
+                });
+
+            }
+
+
+            /* ========================================
+                CREATE PARTICLE
+            ======================================== */
+
+            function createParticle(
+                x,
+                y,
+                angle,
+                speed,
+                color,
+                type = "normal"
+            ) {
+
+                particles.push({
+
+                    x: x,
+
+                    y: y,
+
+                    vx:
+                        Math.cos(angle) *
+                        speed,
+
+                    vy:
+                        Math.sin(angle) *
+                        speed,
+
+                    alpha: 1,
+
+                    life: random(
+                        45,
+                        95
+                    ),
+
+                    size: random(
+                        0.5,
+                        1.2
+                    ),
+
+                    color: color,
+
+                    type: type,
+
+                    trail: []
+
+                });
+
+            }
+
+
+            /* ========================================
+                CREATE FIREWORK BURST
+            ======================================== */
+
+            function explode(rocket) {
+
+                const count =
+                    Math.floor(
+                        random(
+                            settings.particleCountMin,
+                            settings.particleCountMax
+                        )
+                    );
+
+
+                const color =
+                    rocket.color;
+
+
+                /*
+                 * Main spherical explosion
+                 */
+
+                for (let i = 0; i < count; i++) {
+
+                    const angle =
+                        (Math.PI * 2 * i) /
+                        count +
+                        random(-0.05, 0.05);
+
+
+                    const speed =
+                        random(0.7, 2.4);
+
+
+                    createParticle(
+                        rocket.x,
+                        rocket.y,
+                        angle,
+                        speed,
+                        color
+                    );
+
+                }
+
+
+                /*
+                 * White secondary sparks
+                 */
+
+                for (let i = 0; i < 12; i++) {
+
+                    const angle =
+                        random(0, Math.PI * 2);
+
+
+                    const speed =
+                        random(1.2, 2.8);
+
+
+                    createParticle(
+                        rocket.x,
+                        rocket.y,
+                        angle,
+                        speed,
+                        "#ffffff",
+                        "spark"
+                    );
+
+                }
+
+
+                /*
+                 * Central flash
+                 */
+
+                flashes.push({
+
+                    x: rocket.x,
+
+                    y: rocket.y,
+
+                    radius: 3,
+
+                    alpha: 1
+
+                });
+
+            }
+
+
+            /* ========================================
+                UPDATE ROCKETS
+            ======================================== */
+
+            function updateRockets() {
+
+                for (
+                    let i = rockets.length - 1;
+                    i >= 0;
+                    i--
+                ) {
+
+                    const rocket =
+                        rockets[i];
+
+
+                    rocket.trail.push({
+
+                        x: rocket.x,
+
+                        y: rocket.y
+
+                    });
+
+
+                    if (
+                        rocket.trail.length >
+                        settings.trailLength
+                    ) {
+
+                        rocket.trail.shift();
+
+                    }
+
+
+                    rocket.y -= rocket.speed;
+
+                    rocket.speed *= 0.997;
+
+
+                    /*
+                     * Draw rocket trail
+                     */
+
+                    for (
+                        let t = 0;
+                        t < rocket.trail.length;
+                        t++
+                    ) {
+
+                        const point =
+                            rocket.trail[t];
+
+
+                        ctx.beginPath();
+
+                        ctx.arc(
+                            point.x,
+                            point.y,
+                            Math.max(
+                                0.4,
+                                1.5 -
+                                t * 0.15
+                            ),
+                            0,
+                            Math.PI * 2
+                        );
+
+
+                        ctx.fillStyle =
+                            rocket.color;
+
+
+                        ctx.globalAlpha =
+                            (t /
+                                rocket.trail.length) *
+                            0.7;
+
+
+                        ctx.fill();
+
+                    }
+
+
+                    ctx.globalAlpha = 1;
+
+
+                    /*
+                     * Explosion point
+                     */
+
+                    if (
+                        rocket.y <=
+                        rocket.targetY
+                    ) {
+
+                        explode(rocket);
+
+                        rockets.splice(i, 1);
+
+                    }
+
+                }
+
+            }
+
+
+            /* ========================================
+                UPDATE PARTICLES
+            ======================================== */
+
+            function updateParticles() {
+
+                for (
+                    let i = particles.length - 1;
+                    i >= 0;
+                    i--
+                ) {
+
+                    const particle =
+                        particles[i];
+
+
+                    particle.trail.push({
+
+                        x: particle.x,
+
+                        y: particle.y
+
+                    });
+
+
+                    if (
+                        particle.trail.length >
+                        5
+                    ) {
+
+                        particle.trail.shift();
+
+                    }
+
+
+                    particle.x += particle.vx;
+
+                    particle.y += particle.vy;
+
+
+                    particle.vx *=
+                        settings.friction;
+
+
+                    particle.vy *=
+                        settings.friction;
+
+
+                    particle.vy +=
+                        settings.gravity;
+
+
+                    particle.life--;
+
+                    particle.alpha *= 0.985;
+
+
+                    /*
+                     * Draw particle trail
+                     */
+
+                    for (
+                        let t = 0;
+                        t < particle.trail.length;
+                        t++
+                    ) {
+
+                        const point =
+                            particle.trail[t];
+
+
+                        ctx.beginPath();
+
+
+                        ctx.arc(
+                            point.x,
+                            point.y,
+                            Math.max(
+                                0.25,
+                                particle.size -
+                                t * 0.18
+                            ),
+                            0,
+                            Math.PI * 2
+                        );
+
+
+                        ctx.fillStyle =
+                            particle.color;
+
+
+                        ctx.globalAlpha =
+                            particle.alpha *
+                            (1 -
+                                t /
+                                particle.trail.length) *
+                            0.75;
+
+
+                        ctx.fill();
+
+                    }
+
+
+                    ctx.globalAlpha =
+                        particle.alpha;
+
+
+                    /*
+                     * Bright particle core
+                     */
+
+                    ctx.beginPath();
+
+                    ctx.arc(
+                        particle.x,
+                        particle.y,
+                        particle.size,
+                        0,
+                        Math.PI * 2
+                    );
+
+
+                    ctx.fillStyle =
+                        particle.color;
+
+
+                    ctx.shadowBlur = 8;
+
+                    ctx.shadowColor =
+                        particle.color;
+
+
+                    ctx.fill();
+
+                    ctx.shadowBlur = 0;
+
+
+                    if (
+                        particle.life <= 0 ||
+                        particle.alpha < 0.02
+                    ) {
+
+                        particles.splice(i, 1);
+
+                    }
+
+                }
+
+                ctx.globalAlpha = 1;
+
+            }
+
+
+            /* ========================================
+                UPDATE FLASHES
+            ======================================== */
+
+            function updateFlashes() {
+
+                for (
+                    let i = flashes.length - 1;
+                    i >= 0;
+                    i--
+                ) {
+
+                    const flash =
+                        flashes[i];
+
+
+                    flash.radius += 1.8;
+
+                    flash.alpha -= 0.06;
+
+
+                    const gradient =
+                        ctx.createRadialGradient(
+                            flash.x,
+                            flash.y,
+                            0,
+                            flash.x,
+                            flash.y,
+                            flash.radius
+                        );
+
+
+                    gradient.addColorStop(
+                        0,
+                        "rgba(255,255,255," +
+                        flash.alpha +
+                        ")"
+                    );
+
+
+                    gradient.addColorStop(
+                        0.25,
+                        "rgba(255,255,255," +
+                        flash.alpha * 0.45 +
+                        ")"
+                    );
+
+
+                    gradient.addColorStop(
+                        1,
+                        "rgba(255,255,255,0)"
+                    );
+
+
+                    ctx.beginPath();
+
+                    ctx.arc(
+                        flash.x,
+                        flash.y,
+                        flash.radius,
+                        0,
+                        Math.PI * 2
+                    );
+
+
+                    ctx.fillStyle =
+                        gradient;
+
+
+                    ctx.fill();
+
+
+                    if (flash.alpha <= 0) {
+
+                        flashes.splice(i, 1);
+
+                    }
+
+                }
+
+            }
+
+
+            /* ========================================
+                AUTO LAUNCH
+            ======================================== */
+
+            let lastLaunch =
+                performance.now();
+
+
+            function automaticLaunch(time) {
+
+                /*
+                 * Launch fireworks periodically
+                 */
+
+                if (
+                    time - lastLaunch >
+                    random(1200, 2100)
+                ) {
+
+                    /*
+                     * Randomly choose side
+                     */
+
+                    if (Math.random() < 0.5) {
+
+                        createRocket("left");
+
+                    } else {
+
+                        createRocket("right");
+
+                    }
+
+
+                    /*
+                     * Sometimes launch both
+                     * sides together
+                     */
+
+                    if (Math.random() < 0.25) {
+
+                        setTimeout(function () {
+
+                            createRocket(
+                                Math.random() < 0.5
+                                    ? "left"
+                                    : "right"
+                            );
+
+                        }, 220);
+
+                    }
+
+
+                    lastLaunch =
+                        time;
+
+                }
+
+            }
+
+
+            /* ========================================
+                DRAW
+            ======================================== */
+
+            function animate(time) {
+
+                /*
+                 * Transparent fade instead of clearing
+                 * completely gives realistic trails.
+                 */
+
+                ctx.globalCompositeOperation =
+                    "destination-out";
+
+
+                ctx.fillStyle =
+                    "rgba(0,0,0,0.16)";
+
+
+                ctx.fillRect(
+                    0,
+                    0,
+                    width,
+                    height
+                );
+
+
+                ctx.globalCompositeOperation =
+                    "lighter";
+
+
+                automaticLaunch(time);
+
+                updateRockets();
+
+                updateParticles();
+
+                updateFlashes();
+
+
+                ctx.globalCompositeOperation =
+                    "source-over";
+
+
+                requestAnimationFrame(
+                    animate
+                );
+
+            }
+
+
+            /*
+             * Start animation
+             */
+
+            requestAnimationFrame(
+                animate
+            );
+
+
+            /*
+             * Initial fireworks
+             * so the effect doesn't wait
+             */
+
+            setTimeout(function () {
+
+                createRocket("left");
+
+            }, 400);
+
+
+            setTimeout(function () {
+
+                createRocket("right");
+
+            }, 900);
+
+
+            setTimeout(function () {
+
+                createRocket("left");
+
+            }, 1600);
+
+
+            setTimeout(function () {
+
+                createRocket("right");
+
+            }, 2100);
+
+        }
+
+
+        /* ========================================
+            TOP FRAME: SAME LOGIC, BUT READS THE BODY SCROLL
+        ======================================== */
+        (function () {
+
+            const scroller = document.body;
+            let last = 0;
+            let busy = false;
+
+            scroller.addEventListener("scroll", function () {
+
+                if (busy) return;
+
+                busy = true;
+
+                requestAnimationFrame(function () {
+
+                    busy = false;
+
+                    const topFrame = document.getElementById("top-frame");
+
+                    if (!topFrame || topAdClosed) return;
+
+                    const y = scroller.scrollTop;
+                    const maxY = scroller.scrollHeight - scroller.clientHeight;
+
+                    if (y <= 0) {
+                        topFrame.classList.add("hide-top");
+                        last = 0;
+                        return;
+                    }
+
+                    if (y >= maxY - 2) return;
+
+                    if (Math.abs(y - last) < THRESHOLD) return;
+
+                    if (y > last) {
+                        topFrame.classList.remove("hide-top");
+                    } else {
                         topFrame.classList.add("hide-top");
                     }
-                }, 1500);
-            }
-        });
-    </script>
 
+                    last = y;
+
+                });
+
+            }, { passive: true });
+
+        })();
+
+    </script>
 </body>
 
 </html>
