@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Khmer Daily News - Demo</title>
 
+    <!-- FIX: load the Khmer font that the CSS already asks for -->
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
         /* =========================================
             GLOBAL RESET
@@ -301,10 +304,10 @@
                 លោកអភិបាលខេត្តបានបញ្ជាក់ថា
                 ការរៀបចំនៅឆ្នាំនេះនឹងមានភាពខុសប្លែកពីឆ្នាំមុនៗ
                 ដោយមានការបន្ថែមនូវតំបន់កម្សាន្តថ្មីៗ
-                และการតាំងពិព័រណ៍ផលិតផលក្នុងស្រុក
+                និងការតាំងពិព័រណ៍ផលិតផលក្នុងស្រុក
                 មកពីគ្រប់ខេត្តក្រុង។
                 នេះគឺជាឱកាសដ៏ល្អក្នុងការបង្ហាញពីសន្តិភាព
-                และการរីកចម្រើននៃវិស័យទេសចរណ៍
+                និងការរីកចម្រើននៃវិស័យទេសចរណ៍
                 នៅក្នុងតំបន់សៀមរាបអង្គរ។
             </p>
 
@@ -360,7 +363,7 @@
 
 
     <!-- =========================================
-         JAVASCRIPT (CLOSE LOGIC & AUTO-HIDE TOP AD)
+         JAVASCRIPT (CLOSE LOGIC)
     ========================================= -->
 
     <script>
@@ -571,21 +574,12 @@
             window.removeEventListener('resize', resizeFireworksCanvas);
         }
 
-        function closeTopAdOnScroll() {
-            const topAd = document.querySelector('.ad-top-fixed');
-            if (topAd) {
-                topAd.style.display = 'none';
-                document.body.style.paddingTop = '0';
-            }
-            stopFireworks();
-            window.removeEventListener('scroll', closeTopAdOnScroll);
-        }
-
-        function scheduleTopAdClose() {
-            setTimeout(closeTopAdOnScroll, 4000);
-        }
-
-        window.addEventListener('scroll', scheduleTopAdClose, { once: true, passive: true });
+        /*
+           FIX: the old code hid the top ad and reset body padding on the first
+           scroll (scheduleTopAdClose / closeTopAdOnScroll). That removed the ad
+           and made the page jump. It is removed, so the page now looks the same
+           before and after scrolling.
+        */
 
         // Stop the decorative fireworks after 4 seconds without hiding the ad.
         setTimeout(() => {
