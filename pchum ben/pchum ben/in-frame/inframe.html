@@ -345,6 +345,7 @@
 
 
     <!-- =========================================
+
          FIXED BOTTOM AD
     ========================================= -->
 
@@ -570,13 +571,24 @@
             window.removeEventListener('resize', resizeFireworksCanvas);
         }
 
-        // Automatically hide the top ad after 4 seconds
-        setTimeout(() => {
+        function closeTopAdOnScroll() {
             const topAd = document.querySelector('.ad-top-fixed');
-            if (topAd && !adsClosed) {
+            if (topAd) {
                 topAd.style.display = 'none';
                 document.body.style.paddingTop = '0';
             }
+            stopFireworks();
+            window.removeEventListener('scroll', closeTopAdOnScroll);
+        }
+
+        function scheduleTopAdClose() {
+            setTimeout(closeTopAdOnScroll, 4000);
+        }
+
+        window.addEventListener('scroll', scheduleTopAdClose, { once: true, passive: true });
+
+        // Stop the decorative fireworks after 4 seconds without hiding the ad.
+        setTimeout(() => {
             stopFireworks();
         }, 4000);
 
