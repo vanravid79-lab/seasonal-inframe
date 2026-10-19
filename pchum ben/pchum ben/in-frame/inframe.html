@@ -55,7 +55,11 @@
             opacity: 1;
             transform: translateY(0);
             visibility: visible;
-            transition: opacity 0.35s ease, transform 0.35s ease, visibility 0s linear;
+            will-change: opacity, transform;
+            transition:
+                opacity 0.45s ease,
+                transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0s linear;
         }
 
         .ad-top-fixed.is-hidden {
@@ -63,7 +67,10 @@
             transform: translateY(-100%);
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.35s ease, transform 0.35s ease, visibility 0s linear 0.35s;
+            transition:
+                opacity 0.45s ease,
+                transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0s linear 0.5s;
         }
 
 
@@ -376,7 +383,8 @@
         let initialTopAdDelayElapsed = false;
         let topAdHideTimeout = null;
         let lastScrollDirection = null;
-        let previousScrollY = window.scrollY;
+        const pageScroller = document.scrollingElement || document.documentElement;
+        let previousScrollY = pageScroller.scrollTop;
         let previousTouchY = null;
         const topAdReservedPadding = getComputedStyle(document.body).paddingTop;
 
@@ -592,7 +600,7 @@
             }
 
             topAd.classList.toggle('is-hidden', !visible);
-            document.body.style.paddingTop = visible && window.scrollY === 0
+            document.body.style.paddingTop = visible && pageScroller.scrollTop === 0
                 ? topAdReservedPadding
                 : '0';
         }
@@ -624,24 +632,24 @@
         }
 
         window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
+            const currentScrollY = pageScroller.scrollTop;
             if (currentScrollY !== previousScrollY) {
                 handleScrollDirection(currentScrollY < previousScrollY);
             }
             previousScrollY = currentScrollY;
         }, { passive: true });
 
-        document.addEventListener('wheel', (event) => {
+        window.addEventListener('wheel', (event) => {
             if (event.deltaY !== 0) {
                 handleScrollDirection(event.deltaY < 0);
             }
-        }, { passive: true });
+        }, { capture: true, passive: true });
 
-        document.addEventListener('touchstart', (event) => {
+        window.addEventListener('touchstart', (event) => {
             previousTouchY = event.touches.length === 1 ? event.touches[0].clientY : null;
-        }, { passive: true });
+        }, { capture: true, passive: true });
 
-        document.addEventListener('touchmove', (event) => {
+        window.addEventListener('touchmove', (event) => {
             if (previousTouchY !== null && event.touches.length === 1) {
                 const currentTouchY = event.touches[0].clientY;
                 if (currentTouchY !== previousTouchY) {
@@ -649,11 +657,11 @@
                 }
                 previousTouchY = currentTouchY;
             }
-        }, { passive: true });
+        }, { capture: true, passive: true });
 
-        document.addEventListener('touchend', () => {
+        window.addEventListener('touchend', () => {
             previousTouchY = null;
-        }, { passive: true });
+        }, { capture: true, passive: true });
 
         // Hide the top ad after its initial 4-second display.
         setTimeout(() => {
