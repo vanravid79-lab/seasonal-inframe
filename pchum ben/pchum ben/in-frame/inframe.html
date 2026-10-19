@@ -628,7 +628,7 @@
             topAdHideTimeout = window.setTimeout(() => {
                 setTopAdVisible(false);
                 topAdHideTimeout = null;
-            }, 4000);
+            }, 2000);
         }
 
         window.addEventListener('scroll', () => {
@@ -668,7 +668,7 @@
             stopFireworks();
             initialTopAdDelayElapsed = true;
             setTopAdVisible(false);
-        }, 4000);
+        }, 2000);
 
         // Close both ads when close button is clicked
         function closeAllAds() {
