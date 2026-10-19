@@ -37,20 +37,8 @@
 
 
         /* =========================================
-            TOP FIXED SCREEN AD WITH ZOOM-OUT ANIMATION
+            TOP FIXED SCREEN AD
         ========================================= */
-
-        @keyframes zoomOutEntrance {
-            0% {
-                transform: scale(1.25);
-                opacity: 0;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
 
         .ad-top-fixed {
             position: fixed;
@@ -64,7 +52,18 @@
             border: 0;
             z-index: 9999;
             overflow: hidden;
-            animation: zoomOutEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+            transition: opacity 0.35s ease, transform 0.35s ease, visibility 0s linear;
+        }
+
+        .ad-top-fixed.is-hidden {
+            opacity: 0;
+            transform: translateY(-100%);
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.35s ease, transform 0.35s ease, visibility 0s linear 0.35s;
         }
 
 
@@ -92,6 +91,12 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
+
+            .ad-top-fixed,
+            .ad-top-fixed.is-hidden {
+                transition: none;
+            }
+
             .fireworks-canvas {
                 display: none;
             }
@@ -368,8 +373,11 @@
 
     <script>
         let adsClosed = false;
-        let topAdDelayElapsed = false;
+        let initialTopAdDelayElapsed = false;
+        let topAdHideTimeout = null;
+        let lastScrollDirection = null;
         let previousScrollY = window.scrollY;
+        let previousTouchY = null;
         const topAdReservedPadding = getComputedStyle(document.body).paddingTop;
 
         const fireworksCanvas = document.querySelector('.fireworks-canvas');
@@ -583,16 +591,36 @@
                 return;
             }
 
-            topAd.style.display = visible ? 'block' : 'none';
+            topAd.classList.toggle('is-hidden', !visible);
             document.body.style.paddingTop = visible && window.scrollY === 0
                 ? topAdReservedPadding
                 : '0';
         }
 
         function handleScrollDirection(isScrollingUp) {
-            if (topAdDelayElapsed && !adsClosed) {
-                setTopAdVisible(isScrollingUp);
+            if (!initialTopAdDelayElapsed || adsClosed) {
+                return;
             }
+
+            if (isScrollingUp) {
+                lastScrollDirection = true;
+                if (topAdHideTimeout !== null) {
+                    clearTimeout(topAdHideTimeout);
+                    topAdHideTimeout = null;
+                }
+                setTopAdVisible(true);
+                return;
+            }
+
+            if (lastScrollDirection === false) {
+                return;
+            }
+            lastScrollDirection = false;
+            setTopAdVisible(true);
+            topAdHideTimeout = window.setTimeout(() => {
+                setTopAdVisible(false);
+                topAdHideTimeout = null;
+            }, 4000);
         }
 
         window.addEventListener('scroll', () => {
@@ -609,7 +637,6 @@
             }
         }, { passive: true });
 
-        let previousTouchY = null;
         document.addEventListener('touchstart', (event) => {
             previousTouchY = event.touches.length === 1 ? event.touches[0].clientY : null;
         }, { passive: true });
@@ -628,10 +655,10 @@
             previousTouchY = null;
         }, { passive: true });
 
-        // Hide the top ad and reclaim its space after 4 seconds.
+        // Hide the top ad after its initial 4-second display.
         setTimeout(() => {
             stopFireworks();
-            topAdDelayElapsed = true;
+            initialTopAdDelayElapsed = true;
             setTopAdVisible(false);
         }, 4000);
 
@@ -639,12 +666,16 @@
         function closeAllAds() {
             adsClosed = true;
             stopFireworks();
+            if (topAdHideTimeout !== null) {
+                clearTimeout(topAdHideTimeout);
+                topAdHideTimeout = null;
+            }
 
             const topAd = document.querySelector('.ad-top-fixed');
             const bottomAd = document.querySelector('.ad-bottom-fixed');
 
             if (topAd) {
-                topAd.style.display = 'none';
+                topAd.classList.add('is-hidden');
             }
             if (bottomAd) {
                 bottomAd.style.display = 'none';
