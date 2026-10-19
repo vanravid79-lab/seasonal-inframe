@@ -574,16 +574,14 @@
             window.removeEventListener('resize', resizeFireworksCanvas);
         }
 
-        /*
-           FIX: the old code hid the top ad and reset body padding on the first
-           scroll (scheduleTopAdClose / closeTopAdOnScroll). That removed the ad
-           and made the page jump. It is removed, so the page now looks the same
-           before and after scrolling.
-        */
-
-        // Stop the decorative fireworks after 4 seconds without hiding the ad.
+        // Hide the top ad and reclaim its space after 4 seconds.
         setTimeout(() => {
             stopFireworks();
+            const topAd = document.querySelector('.ad-top-fixed');
+            if (topAd) {
+                topAd.style.display = 'none';
+                document.body.style.paddingTop = '0';
+            }
         }, 4000);
 
         // Close both ads when close button is clicked
