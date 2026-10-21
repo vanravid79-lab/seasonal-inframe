@@ -534,9 +534,9 @@
 
         const fireworkColors = [
 
-            '#ffb000', '#ffd700', '#ffe066', '#f5a623',
+            '#ff1744', '#ff9100', '#ffea00', '#00e676',
 
-            '#fff1a8', '#daa520', '#ffc857'
+            '#00e5ff', '#2979ff', '#d500f9', '#ff4081'
 
         ];
 
@@ -620,23 +620,23 @@
 
         function explodeFirework(rocket) {
 
-            const count = Math.floor(randomBetween(34, 56));
+            const count = Math.floor(randomBetween(48, 68));
 
             for (let i = 0; i < count; i++) {
 
                 const angle = (Math.PI * 2 * i) / count + randomBetween(-0.05, 0.05);
 
-                createParticle(rocket.x, rocket.y, angle, randomBetween(0.7, 2.4), rocket.color, false);
+                createParticle(rocket.x, rocket.y, angle, randomBetween(0.8, 3.1), rocket.color, false);
 
             }
 
-            for (let i = 0; i < 12; i++) {
+            for (let i = 0; i < 18; i++) {
 
-                createParticle(rocket.x, rocket.y, randomBetween(0, Math.PI * 2), randomBetween(1.2, 2.8), '#fff4c2', true);
+                createParticle(rocket.x, rocket.y, randomBetween(0, Math.PI * 2), randomBetween(1.1, 3.4), '#fff4c2', true);
 
             }
 
-            flashes.push({ x: rocket.x, y: rocket.y, radius: 2, alpha: 0.9 });
+            flashes.push({ x: rocket.x, y: rocket.y, radius: 2, alpha: 0.9, color: rocket.color });
 
         }
 
@@ -657,6 +657,15 @@
                 rocket.y -= rocket.speed;
 
                 rocket.speed *= 0.997;
+
+                fireworksContext.globalAlpha = 0.95;
+                fireworksContext.fillStyle = '#fff4c2';
+                fireworksContext.shadowBlur = 6;
+                fireworksContext.shadowColor = rocket.color;
+                fireworksContext.beginPath();
+                fireworksContext.arc(rocket.x, rocket.y, 1.5, 0, Math.PI * 2);
+                fireworksContext.fill();
+                fireworksContext.shadowBlur = 0;
 
                 for (let trailIndex = 0; trailIndex < rocket.trail.length; trailIndex++) {
 
@@ -776,11 +785,13 @@
 
                 );
 
+                const colorAlpha = Math.max(0, Math.round(flash.alpha * 0.45 * 255))
+                    .toString(16).padStart(2, '0');
+
                 glow.addColorStop(0, `rgba(255,244,194,${flash.alpha})`);
 
-                glow.addColorStop(0.25, `rgba(255,196,55,${flash.alpha * 0.45})`);
-
-                glow.addColorStop(1, 'rgba(255,176,0,0)');
+                glow.addColorStop(0.25, `${flash.color}${colorAlpha}`);
+                glow.addColorStop(1, `${flash.color}00`);
 
                 fireworksContext.fillStyle = glow;
 
